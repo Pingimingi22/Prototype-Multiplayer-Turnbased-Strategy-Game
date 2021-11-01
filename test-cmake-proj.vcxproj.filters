@@ -1,0 +1,40 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="16.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <ClCompile Include="C:\Users\danie\Documents\cmake-practice\Source.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="include\Game.cpp" />
+    <ClCompile Include="include\Player.cpp" />
+    <ClCompile Include="include\Sprite.cpp" />
+    <ClCompile Include="include\Grid.cpp" />
+    <ClCompile Include="include\Tile.cpp" />
+    <ClCompile Include="include\Text.cpp" />
+    <ClCompile Include="include\Button.cpp" />
+    <ClCompile Include="include\Unit.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <CustomBuild Include="C:\Users\danie\Documents\cmake-practice\CMakeLists.txt" />
+  </ItemGroup>
+  <ItemGroup>
+    <Filter Include="Source Files">
+      <UniqueIdentifier>{29D19011-C096-3420-84E7-92ED5B4A5586}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="include\Game.h" />
+    <ClInclude Include="include\InputChecking.h" />
+    <ClInclude Include="include\NetworkSettings.h" />
+    <ClInclude Include="include\PacketStructs.h" />
+    <ClInclude Include="include\Player.h" />
+    <ClInclude Include="include\Sprite.h" />
+    <ClInclude Include="include\Grid.h" />
+    <ClInclude Include="include\Tile.h" />
+    <ClInclude Include="include\Text.h" />
+    <ClInclude Include="include\Unit.h" />
+    <ClInclude Include="include\Vector2.h" />
+    <ClInclude Include="include\Building.h" />
+    <ClInclude Include="include\Button.h" />
+    <ClInclude Include="include\ProductionTypes.h" />
+  </ItemGroup>
+</Project>

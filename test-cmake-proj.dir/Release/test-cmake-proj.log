@@ -1,0 +1,17 @@
+﻿  Building Custom Rule C:/Users/danie/Documents/cmake-practice/CMakeLists.txt
+  Source.cpp
+C:\Users\danie\Documents\cmake-practice\Source.cpp(13,10): fatal error C1083: Cannot open include file: 'InputChecking.h': No such file or directory
+  Button.cpp
+  Game.cpp
+C:\Users\danie\Documents\cmake-practice\build\include\Game.h(4,10): fatal error C1083: Cannot open include file: 'SDL_image.h': No such file or directory
+  Grid.cpp
+C:\Users\danie\Documents\cmake-practice\build\include\Grid.h(5,10): fatal error C1083: Cannot open include file: 'Tmx.h': No such file or directory
+  Player.cpp
+  Sprite.cpp
+include\Sprite.cpp(2,10): fatal error C1083: Cannot open include file: 'SDL_image.h': No such file or directory
+  Text.cpp
+C:\Users\danie\Documents\cmake-practice\build\include\Text.h(4,10): fatal error C1083: Cannot open include file: 'SDL_ttf.h': No such file or directory
+  Tile.cpp
+C:\Users\danie\Documents\cmake-practice\build\include\Game.h(4,10): fatal error C1083: Cannot open include file: 'SDL_image.h': No such file or directory
+  Generating Code...
+C:\Users\danie\Documents\cmake-practice\build\include\Player.cpp(55): warning C4715: 'Player::InitNetworking': not all control paths return a value

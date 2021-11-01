@@ -1,0 +1,3 @@
+﻿  Building Custom Rule C:/Users/danie/Documents/cmake-practice/external/sdl/CMakeLists.txt
+  SDL_windows_main.c
+  SDL2main.vcxproj -> C:\Users\danie\Documents\cmake-practice\build\external\sdl\Release\SDL2main.lib

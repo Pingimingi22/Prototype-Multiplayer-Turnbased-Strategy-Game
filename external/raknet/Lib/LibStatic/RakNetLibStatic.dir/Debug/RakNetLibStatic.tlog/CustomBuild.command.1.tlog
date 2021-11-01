@@ -1,0 +1,10 @@
+^C:\USERS\DANIE\DOCUMENTS\CMAKE-PRACTICE\EXTERNAL\RAKNET\LIB\LIBSTATIC\CMAKELISTS.TXT
+setlocal
+"C:\Program Files\CMake\bin\cmake.exe" -SC:/Users/danie/Documents/cmake-practice -BC:/Users/danie/Documents/cmake-practice/build --check-stamp-file C:/Users/danie/Documents/cmake-practice/build/external/raknet/Lib/LibStatic/CMakeFiles/generate.stamp
+if %errorlevel% neq 0 goto :cmEnd
+:cmEnd
+endlocal & call :cmErrorLevel %errorlevel% & goto :cmDone
+:cmErrorLevel
+exit /b %1
+:cmDone
+if %errorlevel% neq 0 goto :VCEnd
