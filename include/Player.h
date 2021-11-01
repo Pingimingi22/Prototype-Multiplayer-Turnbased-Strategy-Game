@@ -1,9 +1,9 @@
 #pragma once
 #include <string>
 
-#include "external/raknet/Source/RakPeerInterface.h"
-#include "external/raknet/Source/MessageIdentifiers.h"
-#include "external/raknet/Source/RakNetTypes.h"
+#include "RakPeerInterface.h"
+#include "MessageIdentifiers.h"
+#include "RakNetTypes.h"
 
 #include "InputChecking.h"
 

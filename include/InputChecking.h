@@ -2,8 +2,8 @@
 #include <iostream>
 #include <string>
 #include <algorithm>
-#include "external/raknet/Source/MessageIdentifiers.h"
-#include "external/raknet/Source/RakPeerInterface.h"
+#include "MessageIdentifiers.h"
+#include "RakPeerInterface.h"
 enum class START_INPUT
 {
     HOST,

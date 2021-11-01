@@ -1,7 +1,7 @@
 #pragma once
 
-#include "external/raknet/Source/RakPeerInterface.h"
-#include "external/raknet/Source/MessageIdentifiers.h"
+#include "RakPeerInterface.h"
+#include "MessageIdentifiers.h"
 
 #include "Player.h"
 #include "Building.h"

@@ -1,1 +1,12 @@
-﻿  test-cmake-proj.vcxproj -> C:\Users\danie\Documents\cmake-practice\build\Debug\test-cmake-proj.exe
+﻿  Source.cpp
+C:\Users\danie\Documents\cmake-practice-backup\build\external\dan-pathfinding\include\Dijkstra.h(15,2): warning C4091: 'static ': ignored on left of 'Dijkstra' when no variable is declared
+  Game.cpp
+C:\Users\danie\Documents\cmake-practice-backup\build\external\dan-pathfinding\include\Dijkstra.h(15,2): warning C4091: 'static ': ignored on left of 'Dijkstra' when no variable is declared
+  Grid.cpp
+C:\Users\danie\Documents\cmake-practice-backup\build\external\dan-pathfinding\include\Dijkstra.h(15,2): warning C4091: 'static ': ignored on left of 'Dijkstra' when no variable is declared
+  Unit.cpp
+  Generating Code...
+C:\Users\danie\Documents\cmake-practice-backup\build\include\Grid.cpp(84): warning C4715: 'Grid::GetTile': not all control paths return a value
+C:\Users\danie\Documents\cmake-practice\Source.cpp(44): warning C4715: 'GetPlayerByTurnID': not all control paths return a value
+C:\Users\danie\Documents\cmake-practice-backup\build\include\InputChecking.h(47): warning C4715: 'InputChecking::GetHostJoinInput': not all control paths return a value
+  test-cmake-proj.vcxproj -> C:\Users\danie\Documents\cmake-practice\build\Debug\test-cmake-proj.exe
