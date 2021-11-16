@@ -7,7 +7,7 @@ class Building : public Unit
 {
 public:
 	Building() {}
-	Building(Tile* attachedTile, Player* owner, bool canBuild, bool isMobile, TileType tileType, float tileXIndex, float tileYIndex) : Unit(attachedTile, owner, canBuild, isMobile, tileType, tileXIndex, tileYIndex) {}
+	Building(Tile* attachedTile, Player* owner, bool canBuild, bool isMobile, TileType tileType, float tileXIndex, float tileYIndex, unsigned int reach) : Unit(attachedTile, owner, canBuild, isMobile, tileType, tileXIndex, tileYIndex, reach) {}
 
 	
 

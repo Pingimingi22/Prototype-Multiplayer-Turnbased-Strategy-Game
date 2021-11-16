@@ -115,17 +115,53 @@ void Unit::CalculateWalkableTiles()
 {
 	m_WalkableTiles.clear(); // Clear previous calculation.
 
-	Node* ourNode = m_Tile->m_Node;
+	Node* currentNode = m_Tile->m_Node;
 
+	unsigned int currentReachLevel = 0;
 
-	for (int i = 0; i < ourNode->m_ConnectedNodes.size(); i++)
+	std::vector<Node*> currentLevel;
+
+	// Get the initial 8 tiles.
+	for (int i = 0; i < currentNode->m_ConnectedNodes.size(); i++)
 	{
-		Node* nodeToAdd = ourNode->m_ConnectedNodes[i];
+		Node* nodeToAdd = currentNode->m_ConnectedNodes[i];
 
-		Tile* walkableTile = m_Tile->m_WorldGrid->GetTile(nodeToAdd->m_XIndex, nodeToAdd->m_YIndex);
+		Tile* tile = m_Tile->m_Game->GetTile(nodeToAdd->m_XIndex, nodeToAdd->m_YIndex);
 
-		m_WalkableTiles.push_back(walkableTile);
+		currentLevel.push_back(nodeToAdd);
+		m_WalkableTiles.push_back(tile);
 	}
+	currentReachLevel++; // We increment reach level to 1.
+
+
+	std::vector<Node*> temp; // This should contain the outer ring which represents the next level.
+	while (currentReachLevel < m_Reach)
+	{
+		for (int i = 0; i < currentLevel.size(); i++)
+		{
+			currentNode = currentLevel[i];
+			for (int j = 0; j < currentNode->m_ConnectedNodes.size(); j++)
+			{
+				temp.push_back(currentNode->m_ConnectedNodes[j]);
+			}
+		}
+		
+		currentLevel.clear();
+		for (int i = 0; i < temp.size(); i++)
+		{
+			currentLevel.push_back(temp[i]);
+			m_WalkableTiles.push_back(m_Tile->m_Game->GetTile(temp[i]->m_XIndex, temp[i]->m_YIndex));
+		}
+		temp.clear();
+
+		currentReachLevel++;
+	}
+
+
+
+	
+
+
 }
 
 void Unit::HighlightWalkable()

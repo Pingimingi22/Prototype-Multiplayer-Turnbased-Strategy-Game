@@ -12,7 +12,7 @@ class Unit
 {
 public:
 	Unit() {}
-	Unit(Tile* attachedTile, Player* owner, bool canBuild, bool isMobile, TileType tileType, float tileXIndex, float tileYIndex)
+	Unit(Tile* attachedTile, Player* owner, bool canBuild, bool isMobile, TileType tileType, float tileXIndex, float tileYIndex, unsigned int reach)
 	{
 		m_Tile = attachedTile;
 		m_Owner = owner;
@@ -25,10 +25,14 @@ public:
 
 		m_TileIndex.x = tileXIndex;
 		m_TileIndex.y = tileYIndex;
+
+		m_Reach = reach;
 	}
 
 	bool m_CanBuild;
 	bool m_IsMobile;
+	// Reach for the walkable tiles that this unit can walk to or reach.
+	unsigned int m_Reach = 0;
 
 	// have to rehook these up after sending through the network.
 	// Not to be used over network!
