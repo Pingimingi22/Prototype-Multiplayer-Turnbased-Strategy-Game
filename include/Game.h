@@ -85,6 +85,10 @@ public:
 	NavMap* m_NavMap;
 	// ========================================================= //
 
+	Uint64 m_CurrentTime;
+	Uint64 m_PrevTime;
+	float m_DeltaTime;
+
 	Game(Player* localPlayer, std::vector<Player>& otherPlayers);
 	void Init(int playerNum);
 	void Update(SDL_Event& e);

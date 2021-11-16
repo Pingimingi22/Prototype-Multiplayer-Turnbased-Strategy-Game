@@ -194,3 +194,52 @@ void Unit::Select()
 	CalculateWalkableTiles();
 	HighlightWalkable();
 }
+
+void Unit::Move(std::vector<Node*> navPath)
+{
+	m_IsMoving = true;
+	
+	for (int i = 0; i < navPath.size(); i++)
+	{
+		Node* currentNode = navPath[i];
+		Tile* tile = m_Tile->m_Game->GetTile(currentNode->m_XIndex, currentNode->m_YIndex);
+		m_CurrentPath.push_back(tile);
+	}
+
+}
+
+void Unit::UpdateMove()
+{
+	if (m_IsMoving)
+	{
+		m_ElapsedMoveTime += m_Tile->m_Game->m_DeltaTime;
+
+		if (m_ElapsedMoveTime >= 10)
+		{
+			m_ElapsedMoveTime = 0;
+			if (m_CurrentPathIndex < m_CurrentPath.size() - 1)
+			{
+				m_CurrentPathIndex++;
+				MoveTo(m_CurrentPathIndex);
+			}
+			else // We have reached our destination.
+			{
+				m_IsMoving = false;
+				m_ElapsedMoveTime = 0;
+				m_CurrentPath.clear();
+				m_CurrentPathIndex = 0;
+			}
+
+		}
+	}
+}
+
+void Unit::MoveTo(int pathIndex)
+{
+	m_Tile->ClearUnit();
+
+	m_CurrentPath[pathIndex]->SetTile(m_TileType);
+	m_CurrentPath[pathIndex]->AttachUnit(this);
+
+	m_Tile = m_CurrentPath[pathIndex];
+}

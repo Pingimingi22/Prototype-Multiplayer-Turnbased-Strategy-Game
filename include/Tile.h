@@ -27,6 +27,7 @@ class Tile
 public:
 	Sprite* m_Sprite;
 	TileType m_Type;
+	TileType m_OriginalType;
 	SDL_Renderer* m_Renderer;
 	float m_xPos;
 	float m_yPos;
@@ -87,6 +88,7 @@ public:
 	//}
 
 	void Draw(SDL_Renderer* renderer);
+	void Update();
 
 	void HandleInput(SDL_Event& e);
 	

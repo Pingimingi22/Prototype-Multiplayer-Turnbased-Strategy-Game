@@ -237,8 +237,9 @@ void Game::Init(int playerNum)
 			//m_EndTurnButton = 
 		//}
 
-
 			
+			m_CurrentTime = SDL_GetPerformanceCounter();
+			m_DeltaTime = 0;
 		
 	}
 
@@ -249,8 +250,12 @@ void Game::Init(int playerNum)
 
 void Game::Update(SDL_Event& e)
 {
-
+	m_PrevTime = m_CurrentTime;
+	m_CurrentTime = SDL_GetPerformanceCounter();
 	
+	m_DeltaTime = (float)((m_CurrentTime - m_PrevTime) * 1000 / (float)SDL_GetPerformanceFrequency());
+	//m_DeltaTime *= 0.001; // Make it into seconds.
+	//std::cout << m_DeltaTime << std::endl;
 
 	while (SDL_PollEvent(&e) != 0)
 	{
@@ -287,6 +292,8 @@ void Game::Update(SDL_Event& e)
 	//SDL_RenderCopy(gRenderer, gTexture, NULL, NULL);
 	
 	//testSprite->Draw();
+
+	m_WorldGrid->Update();
 
 	m_HotBar->Draw(gRenderer);
 	m_WorldGrid->Draw(gRenderer);
@@ -326,7 +333,7 @@ void Game::GenerateSpawnLocations()
 	// Local function cache to prevent generating same random number twice.
 	usedCoords.push_back(serverCoords);
 
-	Building* newBuilding = new Building(serversTile, m_LocalPlayer, true, false, TileType::CASTLE, randomX, randomY, 4);
+	Building* newBuilding = new Building(serversTile, m_LocalPlayer, true, false, TileType::CASTLE, randomX, randomY, 0);
 	newBuilding->AddButton(*m_VillagerButton);
 	// Adding to container of all game units.
 	m_AllUnits.push_back(newBuilding);
@@ -363,7 +370,7 @@ void Game::GenerateSpawnLocations()
 			usedCoords.push_back(otherPlayerCoords);
 			Tile* otherPlayerTile = GetTile(otherRandomX, otherRandomY);
 
-			Building* newBuilding = new Building(otherPlayerTile, &m_OtherPlayers->at(i), true, false, TileType::CASTLE, otherRandomX, otherRandomY, 4);
+			Building* newBuilding = new Building(otherPlayerTile, &m_OtherPlayers->at(i), true, false, TileType::CASTLE, otherRandomX, otherRandomY, 0);
 			
 
 			m_AllUnits.push_back(newBuilding);

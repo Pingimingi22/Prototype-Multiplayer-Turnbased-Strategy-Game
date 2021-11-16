@@ -27,6 +27,7 @@ public:
 	void HandleInput(SDL_Event& e);
 
 	void Draw(SDL_Renderer* renderer);
+	void Update();
 
 	Tile* GetTile(int x, int y);
 

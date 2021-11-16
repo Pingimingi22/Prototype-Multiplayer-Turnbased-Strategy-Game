@@ -60,6 +60,17 @@ void Grid::Draw(SDL_Renderer* renderer)
 	}
 }
 
+void Grid::Update()
+{
+	for (int i = 0; i < m_Width; i++)
+	{
+		for (int j = 0; j < m_Height; j++)
+		{
+			m_TileMap[i][j]->Update();
+		}
+	}
+}
+
 void Grid::HandleInput(SDL_Event& e)
 {
 	for (int i = 0; i < m_Width; i++)

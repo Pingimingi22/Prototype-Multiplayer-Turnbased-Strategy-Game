@@ -54,6 +54,13 @@ public:
 	// Container for all tiles that player can move to. Including the tiles that are inpassable and will show as red. This is only for mobile units..
 	std::vector<Tile*> m_WalkableTiles;
 
+	bool m_IsMoving = false;
+	int m_CurrentPathIndex = 0;
+	// Path that the unit is currently following.
+	std::vector<Tile*> m_CurrentPath;
+	// Time the unit has been moving for.
+	float m_ElapsedMoveTime = 0; 
+
 	// ============= Unit Production Stuff ============= //
 	PRODUCTION_TYPE m_ProductionType;
 	bool m_IsProducing = false;
@@ -110,6 +117,11 @@ public:
 	void HighlightWalkable();
 	void Unhighlight();
 
+	void Move(std::vector<Node*> navPath);
 
+	// Called to move unit along path.
+	void MoveTo(int pathIndex);
+
+	void UpdateMove();
 
 };

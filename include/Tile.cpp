@@ -9,6 +9,7 @@ Tile::Tile(TileType type, float xPos, float yPos, float width, float height, SDL
 {
 	m_Game = game;
 	m_Type = type;
+	m_OriginalType = type;
 	//std::string texturePath = GetTilePath(type);
 
 	m_Renderer = renderer;
@@ -108,6 +109,13 @@ void Tile::Draw(SDL_Renderer* renderer)
 	}
 }
 
+void Tile::Update()
+{
+	if (m_Unit)
+		m_Unit->UpdateMove();
+}
+
+
 void Tile::HandleInput(SDL_Event& e)
 {
 	// Handle input for each button this tile's unit has.
@@ -144,6 +152,9 @@ void Tile::HandleInput(SDL_Event& e)
 					{
 						m_Unit->Select();
 					}
+
+					m_Game->m_AllUnits[0]->Move(Dijkstra::GetShortestPath(m_Game->m_AllUnits[0]->m_Tile->m_Node, m_Node));
+
 				}
 			}
 		}
@@ -195,7 +206,8 @@ void Tile::AttachUnit(Unit* unit)
 }
 void Tile ::ClearUnit()
 {
-	// remove unit from tile.
+	m_Unit = nullptr;
+	//SetTile(m_OriginalType);
 
 }
 
