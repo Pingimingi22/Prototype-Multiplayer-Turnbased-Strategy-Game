@@ -2,9 +2,10 @@
 #include <iostream>
 #include "Game.h"
 #include "Unit.h"
+#include "Grid.h"
 
 Tile::Tile() {}
-Tile::Tile(TileType type, float xPos, float yPos, float width, float height, SDL_Renderer* renderer, Game* game)
+Tile::Tile(TileType type, float xPos, float yPos, float width, float height, SDL_Renderer* renderer, Game* game, Grid* worldGrid)
 {
 	m_Game = game;
 	m_Type = type;
@@ -22,6 +23,8 @@ Tile::Tile(TileType type, float xPos, float yPos, float width, float height, SDL
 
 	// Initialising secondary tile sprite.
 	m_SpriteSecondary = new Sprite(NULL, xPos, yPos, width, height, renderer);
+
+	m_WorldGrid = worldGrid;
 
 }
 
@@ -84,6 +87,11 @@ void Tile::Draw(SDL_Renderer* renderer)
 	if (m_SpriteSecondary)
 		m_SpriteSecondary->Draw(renderer);
 
+	if (m_IsHighlighted)
+		Highlight();
+
+	
+
 	if (m_Game->m_CurrentlySelectedTile == this)
 	{
 		// If we are the currently selected tile, find out if we have any buttons attached to our unit and if we do, draw them to the screen.
@@ -125,8 +133,17 @@ void Tile::HandleInput(SDL_Event& e)
 					std::cout << "Clicked a " << GetName() << " tile." << std::endl;
 					m_Game->m_TileSelectText.SetText(GetName());
 
+					// Unhighlight previously highlighted selection.
+					if(m_Game->m_CurrentlySelectedTile && m_Game->m_CurrentlySelectedTile->m_Unit)
+						m_Game->m_CurrentlySelectedTile->m_Unit->Unhighlight();
+
 					// Set the game's currently selected tile to this tile.
 					m_Game->m_CurrentlySelectedTile = this;
+
+					if (m_Unit)
+					{
+						m_Unit->Select();
+					}
 				}
 			}
 		}
@@ -220,4 +237,22 @@ TileType Tile::ProductionTypeToTileType(PRODUCTION_TYPE type)
 	default:
 		return TileType::VILLAGER;
 	}
+}
+
+void Tile::SetHighlight(Uint8 r, Uint8 g, Uint8 b, Uint8 a, bool toggle)
+{
+	m_HighlightColour.r = r;
+	m_HighlightColour.g = g;
+	m_HighlightColour.b = b;
+	m_HighlightColour.a = a;
+	m_IsHighlighted = true;
+}
+
+void Tile::Highlight()
+{
+	//SDL_RenderDrawRect(m_Renderer, m_Sprite->m_Rect);
+	SDL_SetRenderDrawColor(m_Renderer, m_HighlightColour.r, m_HighlightColour.g, m_HighlightColour.b, m_HighlightColour.a);
+	SDL_RenderFillRect(m_Renderer, m_Sprite->m_Rect);
+
+	m_IsHighlighted = true;
 }

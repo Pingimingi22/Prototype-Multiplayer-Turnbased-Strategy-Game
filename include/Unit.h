@@ -46,6 +46,10 @@ public:
 	// Container for all the buttons attached to this unit.
 	std::vector<Button*> m_Buttons;
 
+
+	// Container for all tiles that player can move to. Including the tiles that are inpassable and will show as red. This is only for mobile units..
+	std::vector<Tile*> m_WalkableTiles;
+
 	// ============= Unit Production Stuff ============= //
 	PRODUCTION_TYPE m_ProductionType;
 	bool m_IsProducing = false;
@@ -96,6 +100,11 @@ public:
 	/// </summary>
 	void AddButton(Button button);
 	void DrawButtons();
+
+	void CalculateWalkableTiles();
+
+	void HighlightWalkable();
+	void Unhighlight();
 
 
 

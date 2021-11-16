@@ -117,6 +117,8 @@ void Game::Init(int playerNum)
 			}
 		}
 
+		SDL_SetRenderDrawBlendMode(gRenderer, SDL_BlendMode::SDL_BLENDMODE_BLEND);
+
 		LoadMedia();
 
 
@@ -235,6 +237,8 @@ void Game::Init(int playerNum)
 			//m_EndTurnButton = 
 		//}
 
+
+			
 		
 	}
 
@@ -245,7 +249,9 @@ void Game::Init(int playerNum)
 
 void Game::Update(SDL_Event& e)
 {
+
 	
+
 	while (SDL_PollEvent(&e) != 0)
 	{
 		if (e.type == SDL_QUIT)
@@ -295,7 +301,6 @@ void Game::Update(SDL_Event& e)
 	{
 		m_AllButtons[i]->Draw();
 	}
-
 	SDL_RenderPresent(gRenderer);
 
 	

@@ -6,6 +6,7 @@
 
 class Unit;
 class Game;
+class Grid;
 enum TileType
 {
 	// The numbers match the corresponding ID from the Tiled editor.
@@ -32,19 +33,26 @@ public:
 	float m_Width;
 	float m_Height;
 
+	// Reference back to the world grid so we can access neighbouring tiles and stuff.
+	Grid* m_WorldGrid;
+
 	// ======= Secondary Tile Stuff ======= //
 	bool m_HasSecondaryTile = false;
 	TileType m_TypeSecondary;
 	Sprite* m_SpriteSecondary;
 	// ==================================== //
 
+	bool m_IsHighlighted = false;
+	SDL_Color m_HighlightColour;
+	
 
-	Game* m_Game;
+
+	Game* m_Game = nullptr;
 
 	Unit* m_Unit = nullptr;
 
 	Tile();
-	Tile(TileType type, float xPos, float yPos, float width, float height, SDL_Renderer* renderer, Game* game);
+	Tile(TileType type, float xPos, float yPos, float width, float height, SDL_Renderer* renderer, Game* game, Grid* worldGrid);
 
 
 	// ============= References To Navigation System ============= //
@@ -119,5 +127,11 @@ public:
 	/// <param name="type">PRODUCTION_TYPE that will be converted to TileType.</param>
 	/// <returns></returns>
 	static TileType ProductionTypeToTileType(PRODUCTION_TYPE type);
+
+
+	void SetHighlight(Uint8 r, Uint8 g, Uint8 b, Uint8 a, bool toggle);
+	void Highlight();
+
+	bool CheckIfPassable();
 
 };

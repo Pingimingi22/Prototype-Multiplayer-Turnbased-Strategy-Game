@@ -38,7 +38,7 @@ void Grid::Init(const Tmx::TileLayer* tileLayer)
 			{
 				std::cout << "Broken" << std::endl;
 			}
-			Tile* newTile = new Tile(newType, i * tileWidth, j * tileHeight, tileWidth, tileHeight, m_Renderer, m_Game);
+			Tile* newTile = new Tile(newType, i * tileWidth, j * tileHeight, tileWidth, tileHeight, m_Renderer, m_Game, this);
 			m_TileMap[i][j] = newTile;
 			m_TileMap[i][j]->m_Node = m_NavMap->m_Grid[i][j];
 			

@@ -56,7 +56,7 @@ public:
 
 	Sprite* m_SelectTexture;
 
-	Tile* m_CurrentlySelectedTile;
+	Tile* m_CurrentlySelectedTile = nullptr;
 
 	// ========================= General Buttons ========================= //
 	std::vector<Button*> m_AllButtons;

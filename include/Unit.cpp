@@ -1,5 +1,7 @@
 #include "Unit.h"
 #include "Button.h"
+#include "Grid.h"
+#include "Game.h"
 
 // =============== Defines of some general gameplay stuff =============== //
 #define VILLAGER_PRODUCTION_TURNS 2 // Takes 2 turns to produce one villager.
@@ -107,4 +109,52 @@ void Unit::ToggleButtons(bool toggle)
 	{
 		m_Buttons[i]->m_Active = toggle;
 	}
+}
+
+void Unit::CalculateWalkableTiles()
+{
+	m_WalkableTiles.clear(); // Clear previous calculation.
+
+	Node* ourNode = m_Tile->m_Node;
+
+
+	for (int i = 0; i < ourNode->m_ConnectedNodes.size(); i++)
+	{
+		Node* nodeToAdd = ourNode->m_ConnectedNodes[i];
+
+		Tile* walkableTile = m_Tile->m_WorldGrid->GetTile(nodeToAdd->m_XIndex, nodeToAdd->m_YIndex);
+
+		m_WalkableTiles.push_back(walkableTile);
+	}
+}
+
+void Unit::HighlightWalkable()
+{
+	for (int i = 0; i < m_WalkableTiles.size(); i++)
+	{
+		Tile* currentTile = m_WalkableTiles[i];
+		if (currentTile->m_Node->m_Passable)
+		{
+			if (m_Owner == m_Tile->m_Game->m_LocalPlayer) // If we own it, show walkable tiles as blue
+				m_WalkableTiles[i]->SetHighlight(0, 0, 255, 100, true); // Highlight blue if passable.
+			else // Otherwise, show walkable tiles as yellow.
+				m_WalkableTiles[i]->SetHighlight(255, 241, 161, 100, true);
+		}
+		else
+			m_WalkableTiles[i]->SetHighlight(255, 0, 0, 100, true); // Red if not passable.
+	}
+}
+
+void Unit::Unhighlight()
+{
+	for (int i = 0; i < m_WalkableTiles.size(); i++)
+	{
+		m_WalkableTiles[i]->m_IsHighlighted = false;
+	}
+}
+
+void Unit::Select()
+{
+	CalculateWalkableTiles();
+	HighlightWalkable();
 }
