@@ -214,7 +214,7 @@ void Unit::UpdateMove()
 	{
 		m_ElapsedMoveTime += m_Tile->m_Game->m_DeltaTime;
 
-		if (m_ElapsedMoveTime >= 10)
+		if (m_ElapsedMoveTime >= 100)
 		{
 			m_ElapsedMoveTime = 0;
 			if (m_CurrentPathIndex < m_CurrentPath.size() - 1)
@@ -237,9 +237,21 @@ void Unit::UpdateMove()
 void Unit::MoveTo(int pathIndex)
 {
 	m_Tile->ClearUnit();
+	m_Tile->SetTile(m_Tile->m_OriginalType);
 
 	m_CurrentPath[pathIndex]->SetTile(m_TileType);
 	m_CurrentPath[pathIndex]->AttachUnit(this);
 
 	m_Tile = m_CurrentPath[pathIndex];
+}
+
+bool Unit::IsNodeReachable(Node* node)
+{
+	for (int i = 0; i < m_WalkableTiles.size(); i++)
+	{
+		if (node == m_WalkableTiles[i]->m_Node)
+			return true;
+	}
+
+	return false;
 }

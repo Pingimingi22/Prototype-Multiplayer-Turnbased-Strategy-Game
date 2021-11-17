@@ -124,4 +124,6 @@ public:
 
 	void UpdateMove();
 
+	bool IsNodeReachable(Node* node);
+
 };
