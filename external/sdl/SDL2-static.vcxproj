@@ -23,7 +23,7 @@
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <ProjectGuid>{EA9A525F-A4DE-3635-B030-4345149901C9}</ProjectGuid>
-    <WindowsTargetPlatformVersion>10.0.22000.0</WindowsTargetPlatformVersion>
+    <WindowsTargetPlatformVersion>10.0</WindowsTargetPlatformVersion>
     <Keyword>Win32Proj</Keyword>
     <Platform>x64</Platform>
     <ProjectName>SDL2-static</ProjectName>

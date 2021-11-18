@@ -1,12 +1,20 @@
 ﻿  Source.cpp
-C:\Users\danie\Documents\cmake-practice-backup\build\external\dan-pathfinding\include\Dijkstra.h(15,2): warning C4091: 'static ': ignored on left of 'Dijkstra' when no variable is declared
+c1xx : fatal error C1083: Cannot open source file: 'C:\Users\danie\Documents\cmake-practice\Source.cpp': No such file or directory
+  Button.cpp
+C:\Users\danie\Documents\Visual_Studio_Projects\Prototype-Multiplayer-Turnbased-Strategy-Game\external\dan-pathfinding\include\Dijkstra.h(15,2): warning C4091: 'static ': ignored on left of 'Dijkstra' when no variable is declared
   Game.cpp
-C:\Users\danie\Documents\cmake-practice-backup\build\external\dan-pathfinding\include\Dijkstra.h(15,2): warning C4091: 'static ': ignored on left of 'Dijkstra' when no variable is declared
+C:\Users\danie\Documents\Visual_Studio_Projects\Prototype-Multiplayer-Turnbased-Strategy-Game\external\dan-pathfinding\include\Dijkstra.h(15,2): warning C4091: 'static ': ignored on left of 'Dijkstra' when no variable is declared
   Grid.cpp
-C:\Users\danie\Documents\cmake-practice-backup\build\external\dan-pathfinding\include\Dijkstra.h(15,2): warning C4091: 'static ': ignored on left of 'Dijkstra' when no variable is declared
+C:\Users\danie\Documents\Visual_Studio_Projects\Prototype-Multiplayer-Turnbased-Strategy-Game\external\dan-pathfinding\include\Dijkstra.h(15,2): warning C4091: 'static ': ignored on left of 'Dijkstra' when no variable is declared
+  Player.cpp
+  Sprite.cpp
+  Text.cpp
+  Tile.cpp
+C:\Users\danie\Documents\Visual_Studio_Projects\Prototype-Multiplayer-Turnbased-Strategy-Game\external\dan-pathfinding\include\Dijkstra.h(15,2): warning C4091: 'static ': ignored on left of 'Dijkstra' when no variable is declared
   Unit.cpp
+C:\Users\danie\Documents\Visual_Studio_Projects\Prototype-Multiplayer-Turnbased-Strategy-Game\external\dan-pathfinding\include\Dijkstra.h(15,2): warning C4091: 'static ': ignored on left of 'Dijkstra' when no variable is declared
   Generating Code...
-C:\Users\danie\Documents\cmake-practice-backup\build\include\Grid.cpp(84): warning C4715: 'Grid::GetTile': not all control paths return a value
-C:\Users\danie\Documents\cmake-practice\Source.cpp(44): warning C4715: 'GetPlayerByTurnID': not all control paths return a value
-C:\Users\danie\Documents\cmake-practice-backup\build\include\InputChecking.h(47): warning C4715: 'InputChecking::GetHostJoinInput': not all control paths return a value
-  test-cmake-proj.vcxproj -> C:\Users\danie\Documents\cmake-practice\build\Debug\test-cmake-proj.exe
+C:\Users\danie\Documents\Visual_Studio_Projects\Prototype-Multiplayer-Turnbased-Strategy-Game\include\Tile.cpp(62): warning C4715: 'Tile::GetCachedTexture': not all control paths return a value
+C:\Users\danie\Documents\Visual_Studio_Projects\Prototype-Multiplayer-Turnbased-Strategy-Game\include\Tile.cpp(204): warning C4715: 'Tile::GetName': not all control paths return a value
+C:\Users\danie\Documents\Visual_Studio_Projects\Prototype-Multiplayer-Turnbased-Strategy-Game\include\Player.cpp(55): warning C4715: 'Player::InitNetworking': not all control paths return a value
+C:\Users\danie\Documents\Visual_Studio_Projects\Prototype-Multiplayer-Turnbased-Strategy-Game\include\Grid.cpp(95): warning C4715: 'Grid::GetTile': not all control paths return a value
