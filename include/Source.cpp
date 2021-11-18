@@ -209,7 +209,7 @@ int main(int argc, char* args[])
                 std::cout << "A castle has been constructed by " << castleOwner->m_username << "." << std::endl;
             
                 // Making a copy of the received unit to store in our game.
-                Unit* newCastleUnit = new Unit(game->GetTile(receivedCastle->m_TileIndex.x, receivedCastle->m_TileIndex.y), castleOwner, receivedCastle->CanBuild, receivedCastle->IsMobile, receivedCastle->TileType, receivedCastle->m_TileIndex.x, receivedCastle->m_TileIndex.y);
+                Unit* newCastleUnit = new Unit(game->GetTile(receivedCastle->m_TileIndex.x, receivedCastle->m_TileIndex.y), castleOwner, receivedCastle->CanBuild, receivedCastle->IsMobile, receivedCastle->TileType, receivedCastle->m_TileIndex.x, receivedCastle->m_TileIndex.y, 0);//hello
 
                 newCastleUnit->m_Owner = castleOwner;
                 newCastleUnit->AddButton(*game->m_VillagerButton);
