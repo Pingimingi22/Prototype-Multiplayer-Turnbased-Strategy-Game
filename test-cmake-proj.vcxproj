@@ -89,7 +89,7 @@
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <ClCompile>
-      <AdditionalIncludeDirectories>$(SolutionDir)\external\dan-pathfinding\include;$(SolutionDir)\external\sdl_ttf\include;$(SolutionDir)/include;$(SolutionDir)\external\tmxparser\include;$(SolutionDir)\external\sdl_image\include;$(SolutionDir)/TestLibrary;$(SolutionDir)/external/raknet/include;$(SolutionDir)/external/sdl/include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)/external/raknet/Source;$(SolutionDir)\external\dan-pathfinding\include;$(SolutionDir)\external\sdl_ttf\include;$(SolutionDir)/include;$(SolutionDir)\external\tmxparser\include;$(SolutionDir)\external\sdl_image\include;$(SolutionDir)/TestLibrary;$(SolutionDir)/external/raknet/include;$(SolutionDir)/external/sdl/include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <AssemblerListingLocation>$(IntDir)</AssemblerListingLocation>
       <BasicRuntimeChecks>EnableFastChecks</BasicRuntimeChecks>
       <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
@@ -251,10 +251,9 @@
     </ProjectReference>
   </ItemDefinitionGroup>
   <ItemGroup>
-    
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="C:\Users\danie\Documents\cmake-practice\Source.cpp" />
+    <ClCompile Include="include\Source.cpp" />
     <ClCompile Include="include\Button.cpp" />
     <ClCompile Include="include\Game.cpp" />
     <ClCompile Include="include\Grid.cpp" />

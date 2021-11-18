@@ -1,8 +1,8 @@
 #include <iostream>
 
 #include "Print.h"
-#include "external/raknet/Source/RakPeer.h"
-#include "external/raknet/Source/RakPeerInterface.h"
+#include "RakPeer.h"
+#include "RakPeerInterface.h"
 
 #define SDL_MAIN_HANDLED
 #include "SDL.h"
@@ -12,7 +12,7 @@
 
 #include "InputChecking.h"
 #include "Player.h"
-#include "external/raknet/Source/MessageIdentifiers.h"
+#include "MessageIdentifiers.h"
 
 #include "PacketStructs.h"
 #include <thread>
