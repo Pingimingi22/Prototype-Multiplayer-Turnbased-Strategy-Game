@@ -1,1 +1,4 @@
-﻿  SDL2main.vcxproj -> C:\Users\danie\Documents\cmake-practice\build\external\sdl\Debug\SDL2maind.lib
+﻿C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\MSBuild\Current\Bin\Microsoft.Common.CurrentVersion.targets(1875,5): warning : The referenced project 'C:\Users\danie\Documents\cmake-practice\build\ZERO_CHECK.vcxproj' does not exist.
+  Building Custom Rule C:/Users/danie/Documents/cmake-practice/external/sdl/CMakeLists.txt
+  The system cannot find the path specified.
+C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\MSBuild\Microsoft\VC\v160\Microsoft.CppCommon.targets(231,5): error MSB6006: "cmd.exe" exited with code 3.
