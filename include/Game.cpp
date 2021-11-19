@@ -486,14 +486,14 @@ void Game::EndTurn()
 	m_LocalPlayer->peer->Send((char*)&packet, sizeof(EndTurnPacket), PacketPriority::HIGH_PRIORITY, PacketReliability::RELIABLE_ORDERED, 0, RakNet::UNASSIGNED_RAKNET_GUID, true);
 
 	
-
+	Unit* testUnit;
 	if (m_OtherPlayers->size() == 0) // If we are playing just by ourselves, for debugging purposes, check all units produce when we end the turn.
 	{							     // Normally this is done upon receiving an END_TURN packet but we wont be receiving any if we are playing solo.
 
 		for (int i = 0; i < m_AllUnits.size(); i++)
 		{
 			if (m_PlayerTurn == m_LocalPlayer->m_PlayerTurnNum) // This if check is redundant because there is only us in the game.
-				if(m_AllUnits[i]->Produce());
+				if(m_AllUnits[i]->Produce(testUnit));
 		}
 	}
 }

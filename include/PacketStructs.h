@@ -77,6 +77,11 @@ struct UnitProductionPacket
 
 	TileType ProduceTileType;
 	Vector2 m_TileIndex;
+
+	bool CanBuild;
+	bool IsMobile;
+
+	int OwnerTurnID;
 };
 #pragma pack(pop)
 

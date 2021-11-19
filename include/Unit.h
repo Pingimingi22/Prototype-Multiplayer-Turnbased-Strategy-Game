@@ -89,7 +89,7 @@ public:
 	/// </summary>
 	/// <param name="output">Reference to the tile which the produce spawned on.</param>
 	/// <returns></returns>
-	bool Produce(Tile& output = Tile());
+	bool Produce(Unit*& outputUnit, Tile& output = Tile());
 
 	/// <summary>
 	/// To be called when the turn starts. This sets the number of production turns left.

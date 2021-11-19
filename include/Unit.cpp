@@ -34,7 +34,7 @@ void Unit::StartProduction(PRODUCTION_TYPE type)
 	ToggleButtons(false);
 }
 
-bool Unit::Produce(Tile& output)
+bool Unit::Produce(Unit*& outputUnit, Tile& output)
 {
 	if (CheckProduction()) // We can try and produce this item.
 	{
@@ -44,6 +44,11 @@ bool Unit::Produce(Tile& output)
 		{
 			// We have atleast one spot to put the produced item.
 			Unit* newUnit = new Unit(m_Tile->m_Game->GetTile(availableTile.m_Node->m_XIndex, availableTile.m_Node->m_YIndex), m_Owner, true, true, TileType::VILLAGER, availableTile.m_Node->m_XIndex, availableTile.m_Node->m_YIndex, 5, true);
+			outputUnit = newUnit;
+
+
+			m_Tile->m_Game->m_AllUnits.push_back(newUnit);
+			
 			m_Tile->m_Game->PlaceUnit(newUnit);
 
 

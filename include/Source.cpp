@@ -248,13 +248,21 @@ int main(int argc, char* args[])
                     {
                         // The title the produce spawned on.
                         Tile spawnedOnTile;
-                        if (game->m_AllUnits[i]->Produce(spawnedOnTile))
+                        Unit* producedUnit = nullptr;
+                        if (game->m_AllUnits[i]->Produce(producedUnit, spawnedOnTile))
                         {
                             // Send unit production packet to all other clients.
                             UnitProductionPacket prodPack;
                             prodPack.m_TileIndex.x = spawnedOnTile.m_Node->m_XIndex;
                             prodPack.m_TileIndex.y = spawnedOnTile.m_Node->m_YIndex;
                             prodPack.ProduceTileType = Tile::ProductionTypeToTileType(game->m_AllUnits[i]->m_ProductionType);
+                            
+                            //game->m_AllUnits.push_back(producedUnit);
+                            prodPack.CanBuild = producedUnit->m_CanBuild;
+                            prodPack.IsMobile = producedUnit->m_IsMobile;
+                            prodPack.OwnerTurnID = game->m_LocalPlayer->m_PlayerTurnNum;
+
+
                             localPlayer->peer->Send((char*)&prodPack, sizeof(UnitProductionPacket), PacketPriority::HIGH_PRIORITY, PacketReliability::RELIABLE_ORDERED, 0, RakNet::UNASSIGNED_RAKNET_GUID, true);
                         }
                     }
@@ -274,6 +282,21 @@ int main(int argc, char* args[])
 
                 Tile* tileToSet = game->GetTile(prodPack->m_TileIndex.x, prodPack->m_TileIndex.y);
                 tileToSet->SetSecondaryTile(prodPack->ProduceTileType);
+
+                Player* thePlayer;
+                for (int i = 0; i < otherPlayers.size(); i++)
+                {
+                    if (otherPlayers[i].m_PlayerTurnNum == prodPack->OwnerTurnID)
+                    {
+                        thePlayer = &otherPlayers[i];
+                        break;
+                    }
+                }
+
+                Unit* newUnit = new Unit(tileToSet, thePlayer, prodPack->CanBuild, prodPack->IsMobile, prodPack->ProduceTileType, prodPack->m_TileIndex.x, prodPack->m_TileIndex.y, 5, true);
+                game->m_AllUnits.push_back(newUnit);
+                tileToSet->m_Game->PlaceUnit(newUnit);
+
             }
             else if (received == UNIT_MOVE)
             {
