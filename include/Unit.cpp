@@ -216,6 +216,8 @@ void Unit::Move(std::vector<Node*> navPath)
 		m_CurrentPath.push_back(tile);
 	}
 
+	m_HasMovedThisTurn = true;
+
 }
 
 void Unit::UpdateMove()

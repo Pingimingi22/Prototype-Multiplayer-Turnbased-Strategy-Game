@@ -37,6 +37,8 @@ public:
 	// Reach for the walkable tiles that this unit can walk to or reach.
 	unsigned int m_Reach = 0;
 
+	bool m_HasMovedThisTurn = false;
+
 	// have to rehook these up after sending through the network.
 	// Not to be used over network!
 	Tile* m_Tile;

@@ -465,6 +465,10 @@ void Game::EndTurn()
 		// We only update the production if it is our turn that has ended.
 		if (m_PlayerTurn == m_LocalPlayer->m_PlayerTurnNum)
 			m_AllUnits[i]->UpdateProduction();
+
+
+		// Allowing units to move again for the next turn.
+		m_AllUnits[i]->m_HasMovedThisTurn = false;
 	}
 
 

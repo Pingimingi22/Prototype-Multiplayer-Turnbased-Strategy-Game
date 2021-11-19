@@ -148,6 +148,7 @@ void Tile::HandleInput(SDL_Event& e)
 
 					// To track whether or not we moved a unit with this selection.
 					bool movedUnit = false;
+					bool hasSelectedSameUnit = false;
 					// If we already had a selected tile.
 					if (m_Game->m_CurrentlySelectedTile)
 					{
@@ -155,23 +156,34 @@ void Tile::HandleInput(SDL_Event& e)
 						Unit* tileUnit = m_Game->m_CurrentlySelectedTile->m_Unit;
 						if (tileUnit)
 						{
-							// Only attempt to move the unit if the passed in node is reachable.
-							if (m_Game->m_CurrentlySelectedTile->m_Unit->IsNodeReachable(m_Node))
+							if (!tileUnit->m_HasMovedThisTurn && m_Game->m_PlayerTurn == m_Game->m_LocalPlayer->m_PlayerTurnNum) // Can only move unit once
+							{																									 // and if it is our turn.
+								// Only attempt to move the unit if the passed in node is reachable.
+								if (m_Game->m_CurrentlySelectedTile->m_Unit->IsNodeReachable(m_Node))
+								{
+									tileUnit->Move(Dijkstra::GetShortestPath(tileUnit->m_Tile->m_Node, m_Node));
+
+									// Send move packet to all other players.
+									m_Game->SendUnitMove({ (int)m_Node->m_XIndex , (int)m_Node->m_YIndex }, tileUnit);
+
+									// Deselecting tiles after moving a unit so you don't get stuck in moving the same unit forever.
+									m_Game->m_CurrentlySelectedTile = nullptr;
+
+									movedUnit = true;
+									hasSelectedSameUnit = true;
+								}
+							}
+							else if (tileUnit == m_Unit)
 							{
-								tileUnit->Move(Dijkstra::GetShortestPath(tileUnit->m_Tile->m_Node, m_Node));
-
-								// Send move packet to all other players.
-								m_Game->SendUnitMove({ (int)m_Node->m_XIndex , (int)m_Node->m_YIndex }, tileUnit);
-
-								// Deselecting tiles after moving a unit so you don't get stuck in moving the same unit forever.
+								// We clicked on the same unit that we are, so we should deselect ourselves.
 								m_Game->m_CurrentlySelectedTile = nullptr;
+								hasSelectedSameUnit = true;
 
-								movedUnit = true;
 							}
 							
 						}
 					}
-					if (!movedUnit)
+					if (!movedUnit && !hasSelectedSameUnit)
 					{
 						m_Game->m_CurrentlySelectedTile = this;
 						if (m_Unit)
