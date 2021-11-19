@@ -146,26 +146,29 @@ void Tile::HandleInput(SDL_Event& e)
 						m_Game->m_CurrentlySelectedTile->m_Unit->Unhighlight();
 
 
+					// To track whether or not we moved a unit with this selection.
+					bool movedUnit = false;
+					// If we already had a selected tile.
 					if (m_Game->m_CurrentlySelectedTile)
 					{
+						// If the previously selected tile was a unit, we want to treat this selection as a move order.
 						Unit* tileUnit = m_Game->m_CurrentlySelectedTile->m_Unit;
 						if (tileUnit)
 						{
+							// Only attempt to move the unit if the passed in node is reachable.
 							if (m_Game->m_CurrentlySelectedTile->m_Unit->IsNodeReachable(m_Node))
 							{
 								tileUnit->Move(Dijkstra::GetShortestPath(tileUnit->m_Tile->m_Node, m_Node));
 
 								// Deselecting tiles after moving a unit so you don't get stuck in moving the same unit forever.
 								m_Game->m_CurrentlySelectedTile = nullptr;
+
+								movedUnit = true;
 							}
-							else
-								m_Game->m_CurrentlySelectedTile = this;
+							
 						}
-						else
-							// Set the game's currently selected tile to this tile.
-							m_Game->m_CurrentlySelectedTile = this;
 					}
-					else
+					if (!movedUnit)
 					{
 						m_Game->m_CurrentlySelectedTile = this;
 						if (m_Unit)
@@ -173,13 +176,6 @@ void Tile::HandleInput(SDL_Event& e)
 							m_Unit->Select();
 						}
 					}
-
-					
-
-
-
-					
-
 				}
 			}
 		}

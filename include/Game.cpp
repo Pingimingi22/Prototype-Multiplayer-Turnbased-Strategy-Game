@@ -480,3 +480,10 @@ void Game::EndTurn()
 		}
 	}
 }
+
+
+void Game::SendUnitMove(Vector2 pos)
+{
+	//UnitMovePa
+	//m_LocalPlayer->peer->Send()
+}

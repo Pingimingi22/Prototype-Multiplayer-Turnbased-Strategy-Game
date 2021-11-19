@@ -103,6 +103,7 @@ public:
 	void EndTurn();
 
 	void PlaceUnit(Unit* unit);
+	void SendUnitMove(Vector2 pos);
 
 
 	Tile* GetTile(int x, int y);
