@@ -16,7 +16,8 @@ enum
 	ACK_SEND_USERNAME,
 	FINISHED_WORLD_GENERATION,
 	END_TURN,
-	PRODUCTION_COMPLETE
+	PRODUCTION_COMPLETE,
+	UNIT_MOVE
 
 };
 
@@ -94,6 +95,18 @@ struct EndTurnPacket
 {
 	unsigned char typeId = (unsigned char)END_TURN;
 	int playerTurnID;
+};
+#pragma pack(pop)
+
+#pragma pack(push, 1)
+struct UnitMovePacket
+{
+	unsigned char typeId = (unsigned char)UNIT_MOVE;
+	int playerTurnID;
+	Vector2 movePos;
+	
+	// This position is used to find out which unit we are talking about.
+	Vector2 tileOriginalPos;
 };
 #pragma pack(pop)
 

@@ -482,8 +482,11 @@ void Game::EndTurn()
 }
 
 
-void Game::SendUnitMove(Vector2 pos)
+void Game::SendUnitMove(Vector2 posToGoTo, Unit* unit)
 {
-	//UnitMovePa
-	//m_LocalPlayer->peer->Send()
+	UnitMovePacket packet;
+	packet.movePos = posToGoTo;
+	packet.tileOriginalPos = { unit->m_Tile->m_Node->m_XIndex, unit->m_Tile->m_Node->m_YIndex };
+
+	m_LocalPlayer->peer->Send((char*)&packet, sizeof(UnitMovePacket), PacketPriority::HIGH_PRIORITY, PacketReliability::RELIABLE_ORDERED, 0, RakNet::UNASSIGNED_RAKNET_GUID, true);
 }

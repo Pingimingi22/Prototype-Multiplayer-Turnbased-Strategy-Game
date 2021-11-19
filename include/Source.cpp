@@ -275,6 +275,24 @@ int main(int argc, char* args[])
                 Tile* tileToSet = game->GetTile(prodPack->m_TileIndex.x, prodPack->m_TileIndex.y);
                 tileToSet->SetSecondaryTile(prodPack->ProduceTileType);
             }
+            else if (received == UNIT_MOVE)
+            {
+                // A player has moved one of their units, we need to move the unit for all clients.
+                std::cout << "Received a unit move packet." << std::endl;
+
+                UnitMovePacket* movePack = (UnitMovePacket*)packet->data;
+
+                // We need to find what unit they moved, so we take the original tile position from the packet and find a matching unit.
+                for (int i = 0; i < game->m_AllUnits.size(); i++)
+                {
+                    if (game->m_AllUnits[i]->m_Tile->m_Node->m_XIndex == movePack->tileOriginalPos.x && game->m_AllUnits[i]->m_Tile->m_Node->m_YIndex == movePack->tileOriginalPos.y)
+                    {
+                        // This is the unit that has been moved.
+                        game->m_AllUnits[i]->Move(Dijkstra::GetShortestPath(game->m_AllUnits[i]->m_Tile->m_Node, game->GetTile(movePack->movePos.x, movePack->movePos.y)->m_Node));
+                    }
+                }
+
+            }
             else
             {
                 std::cout << "Received unknown message." << std::endl;

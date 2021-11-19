@@ -160,6 +160,9 @@ void Tile::HandleInput(SDL_Event& e)
 							{
 								tileUnit->Move(Dijkstra::GetShortestPath(tileUnit->m_Tile->m_Node, m_Node));
 
+								// Send move packet to all other players.
+								m_Game->SendUnitMove({ (int)m_Node->m_XIndex , (int)m_Node->m_YIndex }, tileUnit);
+
 								// Deselecting tiles after moving a unit so you don't get stuck in moving the same unit forever.
 								m_Game->m_CurrentlySelectedTile = nullptr;
 

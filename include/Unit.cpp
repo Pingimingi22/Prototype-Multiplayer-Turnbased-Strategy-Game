@@ -199,8 +199,6 @@ void Unit::Move(std::vector<Node*> navPath)
 {
 	m_IsMoving = true;
 	
-	
-
 	for (int i = 0; i < navPath.size(); i++)
 	{
 		Node* currentNode = navPath[i];
