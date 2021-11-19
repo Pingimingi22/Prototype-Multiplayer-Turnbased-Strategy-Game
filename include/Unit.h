@@ -12,7 +12,7 @@ class Unit
 {
 public:
 	Unit() {}
-	Unit(Tile* attachedTile, Player* owner, bool canBuild, bool isMobile, TileType tileType, float tileXIndex, float tileYIndex, unsigned int reach)
+	Unit(Tile* attachedTile, Player* owner, bool canBuild, bool isMobile, TileType tileType, float tileXIndex, float tileYIndex, unsigned int reach, bool secondaryTile = false)
 	{
 		m_Tile = attachedTile;
 		m_Owner = owner;
@@ -27,8 +27,11 @@ public:
 		m_TileIndex.y = tileYIndex;
 
 		m_Reach = reach;
+
+		m_HasSecondaryTile = secondaryTile;
 	}
 
+	bool m_HasSecondaryTile = false;
 	bool m_CanBuild;
 	bool m_IsMobile;
 	// Reach for the walkable tiles that this unit can walk to or reach.

@@ -200,6 +200,8 @@ std::string Tile::GetName()
 		std::string ownerName = m_Unit->m_Owner->m_username;
 		return ownerName + "'s " + "castle";
 	}
+	default:
+		return "no-name for tile.";
 
 	}
 }
@@ -214,7 +216,10 @@ void Tile::SetSecondaryTile(TileType type)
 {
 	m_HasSecondaryTile = true;
 	SDL_Texture* secondarySpriteTexture = GetCachedTexture(type);
-	m_SpriteSecondary->ResetTexture(secondarySpriteTexture);
+
+	if(m_SpriteSecondary)
+		m_SpriteSecondary->ResetTexture(secondarySpriteTexture);
+
 
 	m_Node->SetPassable(false);
 }
@@ -222,6 +227,9 @@ void Tile::SetSecondaryTile(TileType type)
 void Tile::RemoveSecondaryTile()
 {
 	m_HasSecondaryTile = false;
+	m_SpriteSecondary->m_Texture = nullptr;
+	//m_SpriteSecondary = nullptr;
+	m_Node->SetPassable(true);
 }
 
 void Tile::AttachUnit(Unit* unit)

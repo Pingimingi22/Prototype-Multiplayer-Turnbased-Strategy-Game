@@ -43,9 +43,14 @@ bool Unit::Produce(Tile& output)
 		if (m_Tile->CheckSurroundingTiles(availableTile))
 		{
 			// We have atleast one spot to put the produced item.
-			
+			Unit* newUnit = new Unit(m_Tile->m_Game->GetTile(availableTile.m_Node->m_XIndex, availableTile.m_Node->m_YIndex), m_Owner, true, true, TileType::VILLAGER, availableTile.m_Node->m_XIndex, availableTile.m_Node->m_YIndex, 5, true);
+			m_Tile->m_Game->PlaceUnit(newUnit);
+
+
 			TileType tileType = Tile::ProductionTypeToTileType(m_ProductionType);
-			availableTile.SetSecondaryTile(tileType);
+
+			
+			//availableTile.SetSecondaryTile(tileType);
 
 			m_ProductionTurnsElapsed = 0;
 			m_IsProducing = false;
@@ -237,9 +242,18 @@ void Unit::UpdateMove()
 void Unit::MoveTo(int pathIndex)
 {
 	m_Tile->ClearUnit();
-	m_Tile->SetTile(m_Tile->m_OriginalType);
 
-	m_CurrentPath[pathIndex]->SetTile(m_TileType);
+	if (!m_HasSecondaryTile) // Don't need to set the tile back if we haven't replaced the tile.
+		m_Tile->SetTile(m_Tile->m_OriginalType);
+	else
+		m_Tile->RemoveSecondaryTile();
+
+
+	if (m_HasSecondaryTile)
+		m_CurrentPath[pathIndex]->SetSecondaryTile(m_TileType);
+	else
+		m_CurrentPath[pathIndex]->SetTile(m_TileType);
+
 	m_CurrentPath[pathIndex]->AttachUnit(this);
 
 	m_Tile = m_CurrentPath[pathIndex];

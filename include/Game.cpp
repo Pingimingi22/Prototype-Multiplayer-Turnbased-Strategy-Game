@@ -395,6 +395,11 @@ void Game::SetTile(int x, int y, TileType type)
 	Tile* tile = GetTile(x, y);
 	tile->SetTile(type);
 }
+void Game::SetSecondaryTile(int x, int y, TileType type)
+{
+	Tile* tile = GetTile(x, y);
+	tile->SetSecondaryTile(type);
+}
 
 void Game::SendSpawnLocation(Building spawnedCastle)
 {
@@ -416,7 +421,19 @@ void Game::PlaceUnit(Unit* unit)
 	Tile* tile = GetTile(unit->m_TileIndex.x, unit->m_TileIndex.y);
 	tile->AttachUnit(unit);
 	//unit->m_Tile->AttachUnit(unit);
-	SetTile(unit->m_TileIndex.x, unit->m_TileIndex.y, unit->m_TileType);
+
+	// Setting the texture of the tile. If we are producing a unit that overlays an additional texture over the
+	// regular tile, we want to call SetSecondaryTile().
+
+	if (unit->m_HasSecondaryTile)
+	{
+		SetSecondaryTile(unit->m_TileIndex.x, unit->m_TileIndex.y, unit->m_TileType);
+	}
+	else
+	{
+		SetTile(unit->m_TileIndex.x, unit->m_TileIndex.y, unit->m_TileType);
+	}
+
 }
 
 void Game::SendWorldGenerationComplete()

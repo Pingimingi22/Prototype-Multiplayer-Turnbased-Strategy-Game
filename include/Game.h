@@ -109,6 +109,7 @@ public:
 	Tile* GetTile(int x, int y);
 
 	void SetTile(int x, int y, TileType type);
+	void SetSecondaryTile(int x, int y, TileType type);
 
 
 
