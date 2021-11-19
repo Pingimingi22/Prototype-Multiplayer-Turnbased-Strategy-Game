@@ -333,7 +333,7 @@ void Game::GenerateSpawnLocations()
 	// Local function cache to prevent generating same random number twice.
 	usedCoords.push_back(serverCoords);
 
-	Building* newBuilding = new Building(serversTile, m_LocalPlayer, true, false, TileType::CASTLE, randomX, randomY, 0);
+	Building* newBuilding = new Building(serversTile, m_LocalPlayer, true, false, TileType::CASTLE, randomX, randomY, 6);
 	newBuilding->AddButton(*m_VillagerButton);
 	// Adding to container of all game units.
 	m_AllUnits.push_back(newBuilding);
@@ -370,7 +370,7 @@ void Game::GenerateSpawnLocations()
 			usedCoords.push_back(otherPlayerCoords);
 			Tile* otherPlayerTile = GetTile(otherRandomX, otherRandomY);
 
-			Building* newBuilding = new Building(otherPlayerTile, &m_OtherPlayers->at(i), true, false, TileType::CASTLE, otherRandomX, otherRandomY, 0);
+			Building* newBuilding = new Building(otherPlayerTile, &m_OtherPlayers->at(i), true, false, TileType::CASTLE, otherRandomX, otherRandomY, 6);
 			
 
 			m_AllUnits.push_back(newBuilding);

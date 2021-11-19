@@ -145,9 +145,9 @@ void Tile::HandleInput(SDL_Event& e)
 					if(m_Game->m_CurrentlySelectedTile && m_Game->m_CurrentlySelectedTile->m_Unit)
 						m_Game->m_CurrentlySelectedTile->m_Unit->Unhighlight();
 
+
 					if (m_Game->m_CurrentlySelectedTile)
 					{
-						//if(m_)
 						Unit* tileUnit = m_Game->m_CurrentlySelectedTile->m_Unit;
 						if (tileUnit)
 						{
@@ -166,15 +166,17 @@ void Tile::HandleInput(SDL_Event& e)
 							m_Game->m_CurrentlySelectedTile = this;
 					}
 					else
+					{
 						m_Game->m_CurrentlySelectedTile = this;
+						if (m_Unit)
+						{
+							m_Unit->Select();
+						}
+					}
 
 					
 
 
-					if (m_Unit)
-					{
-						m_Unit->Select();
-					}
 
 					
 
