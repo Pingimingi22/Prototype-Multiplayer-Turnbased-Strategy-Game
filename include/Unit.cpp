@@ -5,6 +5,9 @@
 
 // =============== Defines of some general gameplay stuff =============== //
 #define VILLAGER_PRODUCTION_TURNS 2 // Takes 2 turns to produce one villager.
+#define LUMBER_PRODUCTION_TURNS 0
+#define QUARRY_PRODUCTION_TURNS 0
+#define FARM_PRODUCTION_TURNS 0
 
 // ====================================================================== //
 
@@ -42,8 +45,10 @@ bool Unit::Produce(Unit*& outputUnit, Tile& output)
 		// Check surrounding tiles and if atleast 1 spot is clear, produce item and return true;
 		if (m_Tile->CheckSurroundingTiles(availableTile))
 		{
+			TileType newTileType = m_Tile->ProductionTypeToTileType(m_ProductionType);
+
 			// We have atleast one spot to put the produced item.
-			Unit* newUnit = new Unit(m_Tile->m_Game->GetTile(availableTile.m_Node->m_XIndex, availableTile.m_Node->m_YIndex), m_Owner, true, true, TileType::VILLAGER, availableTile.m_Node->m_XIndex, availableTile.m_Node->m_YIndex, 5, true);
+			Unit* newUnit = new Unit(m_Tile->m_Game->GetTile(availableTile.m_Node->m_XIndex, availableTile.m_Node->m_YIndex), m_Owner, true, true, newTileType, availableTile.m_Node->m_XIndex, availableTile.m_Node->m_YIndex, 5, true);
 			newUnit->AddButton(m_Tile->m_Game->m_LumberButton);
 			newUnit->AddButton(m_Tile->m_Game->m_QuarryButton);
 			newUnit->AddButton(m_Tile->m_Game->m_FarmButton);
@@ -110,6 +115,12 @@ int Unit::GetProductionTurns(PRODUCTION_TYPE type)
 	{
 	case PRODUCTION_TYPE::VILLAGER:
 		return VILLAGER_PRODUCTION_TURNS;
+	case PRODUCTION_TYPE::LUMBER:
+		return LUMBER_PRODUCTION_TURNS;
+	case PRODUCTION_TYPE::QUARRY:
+		return QUARRY_PRODUCTION_TURNS;
+	case PRODUCTION_TYPE::FARM:
+		return FARM_PRODUCTION_TURNS;
 	default:
 		std::cout << "Unknown type passed in to GetProductionTurns()" << std::endl;
 		return -1;
@@ -296,7 +307,11 @@ void Unit::HandleInput(SDL_Event& e)
 					{
 						std::cout << "Clicked a button." << std::endl;
 						if (currentButton->m_Game->m_PlayerTurn == currentButton->m_Game->m_LocalPlayer->m_PlayerTurnNum && currentButton->m_Active) // Can only press buttons when it is our turn and if the
-							currentButton->PerformAction(this);																							 // button is active.
+						{																															 // button is active.
+							m_ProductionType = currentButton->m_prodType; // Pretty weird and bad way to get the button to produce the unit but watevs. We're relying
+							currentButton->PerformAction(this);			  // on the units m_ProductionType not changing until the unit is produced. But I plan on having
+																		  // villagers produce buildings instantly for now so this *should* be okay.
+						}
 					}
 				}
 			}

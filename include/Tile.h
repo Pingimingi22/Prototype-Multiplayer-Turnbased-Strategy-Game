@@ -14,7 +14,10 @@ enum TileType
 	GRASS = 5,
 	MOUNTAIN = 8,
 	CASTLE,
-	VILLAGER
+	VILLAGER,
+	QUARRY,
+	FARM,
+	LUMBER
 };
 enum TileID
 {

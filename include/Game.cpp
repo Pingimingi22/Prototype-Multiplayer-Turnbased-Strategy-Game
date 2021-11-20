@@ -188,6 +188,9 @@ void Game::Init(int playerNum)
 		m_CastleTexture = LoadTexture("images/castle-neutral-001.png");							   
 		m_ForestTexture = LoadTexture("images/forest-001.png");
 		m_VillagerTexture = LoadTexture("images/villager-0001.png");
+		m_FarmTexture = LoadTexture("images/farm-001.png");
+		m_QuarryTexture = LoadTexture("images/quarry-001.png");
+		m_LumberTexture = LoadTexture("images/lumber-mill-001.png");
 
 
 		m_WorldGrid = new Grid(tilelayer->GetWidth(), tilelayer->GetHeight(), 0, 0, gRenderer, this, m_NavMap);
@@ -217,15 +220,15 @@ void Game::Init(int playerNum)
 
 		Sprite* activeLumber = new Sprite("images/lumber-mill-button-001.png", 900, 845, 64, 64, gRenderer);
 		Sprite* inactiveLumber = new Sprite("images/lumber-mill-button-inactive-001.png", 900, 845, 64, 64, gRenderer);
-		m_LumberButton = new Button(activeLumber, inactiveLumber, true, this, BUTTON_TYPE::PRODUCE);
+		m_LumberButton = new Button(activeLumber, inactiveLumber, true, this, BUTTON_TYPE::PRODUCE, nullptr, PRODUCTION_TYPE::LUMBER);
 
 		Sprite* activeFarm = new Sprite("images/farm-button-001.png", 975, 845, 64, 64, gRenderer);
 		Sprite* inactiveFarm = new Sprite("images/farm-button-inactive-001.png", 975, 845, 64, 64, gRenderer);
-		m_FarmButton = new Button(activeFarm, inactiveFarm, true, this, BUTTON_TYPE::PRODUCE);
+		m_FarmButton = new Button(activeFarm, inactiveFarm, true, this, BUTTON_TYPE::PRODUCE, nullptr, PRODUCTION_TYPE::FARM);
 
 		Sprite* activeQuarry = new Sprite("images/quarry-button-001.png", 1050, 845, 64, 64, gRenderer);
 		Sprite* inactiveQuarry = new Sprite("images/quarry-button-inactive-001.png", 1050, 845, 64, 64, gRenderer);
-		m_QuarryButton = new Button(activeQuarry, inactiveQuarry, true, this, BUTTON_TYPE::PRODUCE);
+		m_QuarryButton = new Button(activeQuarry, inactiveQuarry, true, this, BUTTON_TYPE::PRODUCE, nullptr, PRODUCTION_TYPE::QUARRY);
 
 		// ======================================================================= //
 

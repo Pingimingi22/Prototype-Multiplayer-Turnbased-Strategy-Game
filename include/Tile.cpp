@@ -53,8 +53,13 @@ SDL_Texture* Tile::GetCachedTexture(TileType type)
 	case TileType::VILLAGER:
 		return m_Game->m_VillagerTexture;
 		break;
+	case TileType::QUARRY:
+		return m_Game->m_QuarryTexture;
+	case TileType::LUMBER:
+		return m_Game->m_LumberTexture;
+	case TileType::FARM:
+		return m_Game->m_FarmTexture;
 	default:
-		int hi = 5;
 		break;
 	
 
@@ -75,6 +80,12 @@ std::string Tile::GetTilePath(TileType type)
 			return "images/castle-neutral-001.png";
 		case TileType::VILLAGER:
 			return "images/villager-0001.png";
+		case TileType::QUARRY:
+			return "images/quarry-001.png";
+		case TileType::FARM:
+			return "images/farm-001.png";
+		case TileType::LUMBER:
+			return "images/lumber-mill-001.png";
 		default:
 			return "images/farm-001.png";
 			
@@ -213,6 +224,12 @@ std::string Tile::GetName()
 		std::string ownerName = m_Unit->m_Owner->m_username;
 		return ownerName + "'s " + "castle";
 	}
+	case TileType::LUMBER:
+		return "lumber-mill";
+	case TileType::QUARRY:
+		return "quarry";
+	case TileType::FARM:
+		return "farm";
 	default:
 		return "no-name for tile.";
 
@@ -291,6 +308,12 @@ TileType Tile::ProductionTypeToTileType(PRODUCTION_TYPE type)
 	{
 	case PRODUCTION_TYPE::VILLAGER:
 		return TileType::VILLAGER;
+	case PRODUCTION_TYPE::FARM:
+		return TileType::FARM;
+	case PRODUCTION_TYPE::LUMBER:
+		return TileType::LUMBER;
+	case PRODUCTION_TYPE::QUARRY:
+		return TileType::QUARRY;
 	default:
 		return TileType::VILLAGER;
 	}

@@ -1,6 +1,6 @@
 #pragma once
 #include "Sprite.h"
-
+#include "ProductionTypes.h"
 
 enum class BUTTON_TYPE
 {
@@ -21,13 +21,15 @@ public:
 
 	// Type of this button.
 	BUTTON_TYPE m_Type;
+	PRODUCTION_TYPE m_prodType;
+
 
 	// Stuff for buttons that produce items.
 	// These types of buttons need a reference to the unit that controls them, so that they know what item to produce.
 	Unit* m_Unit;
 
 	Button(std::string path, float xPos, float yPos, float width, float height, SDL_Renderer* renderer, bool active);
-	Button(Sprite* activeSprite, Sprite* inactiveSprite, bool active, Game* game, BUTTON_TYPE type, Unit* = nullptr);
+	Button(Sprite* activeSprite, Sprite* inactiveSprite, bool active, Game* game, BUTTON_TYPE type, Unit* = nullptr, PRODUCTION_TYPE prodType = PRODUCTION_TYPE::VILLAGER);
 
 	void Draw();
 

@@ -75,6 +75,9 @@ public:
 	SDL_Texture* m_ForestTexture = NULL;
 	SDL_Texture* m_CastleTexture;
 	SDL_Texture* m_VillagerTexture;
+	SDL_Texture* m_FarmTexture;
+	SDL_Texture* m_LumberTexture;
+	SDL_Texture* m_QuarryTexture;
 
 	// =================== Unit amd Building Buttons =================== //
 	Button* m_VillagerButton;

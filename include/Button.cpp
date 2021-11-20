@@ -10,7 +10,7 @@ Button::Button(std::string path, float xPos, float yPos, float width, float heig
 	m_Renderer = renderer;
 }
 
-Button::Button(Sprite* activeSprite, Sprite* inactiveSprite, bool active, Game* game, BUTTON_TYPE type, Unit* unit)
+Button::Button(Sprite* activeSprite, Sprite* inactiveSprite, bool active, Game* game, BUTTON_TYPE type, Unit* unit, PRODUCTION_TYPE prodType)
 {
 	m_ActiveSprite = activeSprite;
 	m_InactiveSprite = inactiveSprite;
@@ -20,6 +20,8 @@ Button::Button(Sprite* activeSprite, Sprite* inactiveSprite, bool active, Game* 
 
 	m_Type = type;
 	m_Unit = unit;
+
+	m_prodType = prodType;
 }
 
 void Button::Draw()
@@ -85,7 +87,7 @@ void Button::Produce(Unit* unitCalling)
 {
 	if (unitCalling)
 	{
-		unitCalling->StartProduction(PRODUCTION_TYPE::VILLAGER);
+		unitCalling->StartProduction(unitCalling->m_ProductionType);
 	}
 	else
 	{

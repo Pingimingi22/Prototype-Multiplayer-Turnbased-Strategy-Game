@@ -1,6 +1,9 @@
 #pragma once
 enum class PRODUCTION_TYPE
 {
-	VILLAGER
+	VILLAGER,
+	QUARRY,
+	FARM,
+	LUMBER
 
 };
