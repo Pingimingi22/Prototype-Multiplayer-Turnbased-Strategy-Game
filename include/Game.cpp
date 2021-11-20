@@ -215,12 +215,12 @@ void Game::Init(int playerNum)
 		Sprite* inactiveVillager = new Sprite("images/villager-button-inactive-001.png", 900, 845, 64, 64, gRenderer);
 		m_VillagerButton = new Button(activeVillager, inactiveVillager, true, this, BUTTON_TYPE::PRODUCE);
 
-		Sprite* activeLumber = new Sprite("images/lumber-mill-button-001.png", 950, 845, 64, 64, gRenderer);
-		Sprite* inactiveLumber = new Sprite("images/lumber-mill-button-inactive-001.png", 950, 845, 64, 64, gRenderer);
+		Sprite* activeLumber = new Sprite("images/lumber-mill-button-001.png", 900, 845, 64, 64, gRenderer);
+		Sprite* inactiveLumber = new Sprite("images/lumber-mill-button-inactive-001.png", 900, 845, 64, 64, gRenderer);
 		m_LumberButton = new Button(activeLumber, inactiveLumber, true, this, BUTTON_TYPE::PRODUCE);
 
-		Sprite* activeFarm = new Sprite("images/farm-button-001.png", 1000, 845, 64, 64, gRenderer);
-		Sprite* inactiveFarm = new Sprite("images/farm-button-inactive-001.png", 1000, 845, 64, 64, gRenderer);
+		Sprite* activeFarm = new Sprite("images/farm-button-001.png", 975, 845, 64, 64, gRenderer);
+		Sprite* inactiveFarm = new Sprite("images/farm-button-inactive-001.png", 975, 845, 64, 64, gRenderer);
 		m_FarmButton = new Button(activeFarm, inactiveFarm, true, this, BUTTON_TYPE::PRODUCE);
 
 		Sprite* activeQuarry = new Sprite("images/quarry-button-001.png", 1050, 845, 64, 64, gRenderer);
