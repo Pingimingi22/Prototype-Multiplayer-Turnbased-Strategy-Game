@@ -6,7 +6,6 @@ enum class BUTTON_TYPE
 {
 	END_TURN,
 	PRODUCE
-
 };
 
 class Unit;

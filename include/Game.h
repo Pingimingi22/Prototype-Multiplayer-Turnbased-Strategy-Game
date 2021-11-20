@@ -78,7 +78,9 @@ public:
 
 	// =================== Unit amd Building Buttons =================== //
 	Button* m_VillagerButton;
-	
+	Button* m_QuarryButton;
+	Button* m_LumberButton;
+	Button* m_FarmButton;
 	// ================================================================= //
 
 	// =================== Navigation System =================== //

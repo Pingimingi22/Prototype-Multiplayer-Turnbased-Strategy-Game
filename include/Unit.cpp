@@ -44,6 +44,7 @@ bool Unit::Produce(Unit*& outputUnit, Tile& output)
 		{
 			// We have atleast one spot to put the produced item.
 			Unit* newUnit = new Unit(m_Tile->m_Game->GetTile(availableTile.m_Node->m_XIndex, availableTile.m_Node->m_YIndex), m_Owner, true, true, TileType::VILLAGER, availableTile.m_Node->m_XIndex, availableTile.m_Node->m_YIndex, 5, true);
+			newUnit->AddButton(*m_Tile->m_Game->m_LumberButton);
 			outputUnit = newUnit;
 
 
