@@ -8,12 +8,12 @@
 
 // ====================================================================== //
 
-void Unit::AddButton(Button button)
+void Unit::AddButton(Button* button)
 {
-	Button* newButton = new Button(button.m_ActiveSprite, button.m_InactiveSprite, true, button.m_Game, button.m_Type, this); // Important last parameter.
+	//Button* newButton = new Button(button.m_ActiveSprite, button.m_InactiveSprite, true, button.m_Game, button.m_Type, this); // Important last parameter.
 																															  // this keyword means this unit
 																															  // will be attached to the button.
-	m_Buttons.push_back(newButton);
+	m_Buttons.push_back(button);
 }
 
 void Unit::DrawButtons()
@@ -44,7 +44,7 @@ bool Unit::Produce(Unit*& outputUnit, Tile& output)
 		{
 			// We have atleast one spot to put the produced item.
 			Unit* newUnit = new Unit(m_Tile->m_Game->GetTile(availableTile.m_Node->m_XIndex, availableTile.m_Node->m_YIndex), m_Owner, true, true, TileType::VILLAGER, availableTile.m_Node->m_XIndex, availableTile.m_Node->m_YIndex, 5, true);
-			newUnit->AddButton(*m_Tile->m_Game->m_LumberButton);
+			newUnit->AddButton(m_Tile->m_Game->m_LumberButton);
 			outputUnit = newUnit;
 
 
@@ -276,4 +276,28 @@ bool Unit::IsNodeReachable(Node* node)
 	}
 
 	return false;
+}
+
+void Unit::HandleInput(SDL_Event& e)
+{
+	if (e.type == SDL_MOUSEBUTTONDOWN)
+	{
+		int x, y;
+		if (SDL_GetMouseState(&x, &y) && m_Tile->m_Game->m_CurrentlySelectedTile == m_Tile)
+		{
+			for (int i = 0; i < m_Buttons.size(); i++)
+			{
+				Button* currentButton = m_Buttons[i];
+				if (x > currentButton->m_ActiveSprite->m_Rect->x && x < currentButton->m_ActiveSprite->m_Rect->x + currentButton->m_ActiveSprite->m_Rect->w)
+				{
+					if (y > currentButton->m_ActiveSprite->m_Rect->y && y < currentButton->m_ActiveSprite->m_Rect->y + currentButton->m_ActiveSprite->m_Rect->h)
+					{
+						std::cout << "Clicked a button." << std::endl;
+						if (currentButton->m_Game->m_PlayerTurn == currentButton->m_Game->m_LocalPlayer->m_PlayerTurnNum && currentButton->m_Active) // Can only press buttons when it is our turn and if the
+							currentButton->PerformAction(this);																							 // button is active.
+					}
+				}
+			}
+		}
+	}
 }

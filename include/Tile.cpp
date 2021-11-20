@@ -123,7 +123,8 @@ void Tile::HandleInput(SDL_Event& e)
 	{
 		for (int i = 0; i < m_Unit->m_Buttons.size(); i++)
 		{
-			m_Unit->m_Buttons[i]->HandleInput(e);
+			//m_Unit->m_Buttons[i]->HandleInput(e);
+			m_Unit->HandleInput(e);
 		}
 	}
 

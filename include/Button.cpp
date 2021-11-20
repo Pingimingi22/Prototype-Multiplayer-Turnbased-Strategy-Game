@@ -36,6 +36,8 @@ void Button::Draw()
 
 void Button::HandleInput(SDL_Event& e)
 {
+	// Moved to Unit.cpp HandleInput() function.
+
 	if (e.type == SDL_MOUSEBUTTONDOWN)
 	{
 		int x, y;
@@ -54,7 +56,7 @@ void Button::HandleInput(SDL_Event& e)
 	}
 }
 
-void Button::PerformAction()
+void Button::PerformAction(Unit* unitCalling)
 {
 	switch (m_Type)
 	{
@@ -64,7 +66,7 @@ void Button::PerformAction()
 		break;
 	case BUTTON_TYPE::PRODUCE:
 		std::cout << "Producing item." << std::endl;
-		Produce();
+		Produce(unitCalling);
 		break;
 	default:
 		std::cout << "Error, button PerformAction() could not find a matching BUTTON_TYPE." << std::endl;
@@ -79,11 +81,11 @@ void Button::EndTurn()
 		m_Game->EndTurn();
 }
 
-void Button::Produce()
+void Button::Produce(Unit* unitCalling)
 {
-	if (m_Unit)
+	if (unitCalling)
 	{
-		m_Unit->StartProduction(PRODUCTION_TYPE::VILLAGER);
+		unitCalling->StartProduction(PRODUCTION_TYPE::VILLAGER);
 	}
 	else
 	{

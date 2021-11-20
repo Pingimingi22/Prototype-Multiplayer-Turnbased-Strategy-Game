@@ -212,7 +212,7 @@ int main(int argc, char* args[])
                 Unit* newCastleUnit = new Unit(game->GetTile(receivedCastle->m_TileIndex.x, receivedCastle->m_TileIndex.y), castleOwner, receivedCastle->CanBuild, receivedCastle->IsMobile, receivedCastle->TileType, receivedCastle->m_TileIndex.x, receivedCastle->m_TileIndex.y, 6);//hello
 
                 newCastleUnit->m_Owner = castleOwner;
-                newCastleUnit->AddButton(*game->m_VillagerButton);
+                newCastleUnit->AddButton(game->m_VillagerButton);
                 
                 game->m_AllUnits.push_back(newCastleUnit);
 

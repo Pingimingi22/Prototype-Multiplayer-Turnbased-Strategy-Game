@@ -71,6 +71,9 @@ public:
 	bool m_IsProducing = false;
 	int m_ProductionTurnsElapsed;
 
+
+	void HandleInput(SDL_Event& e);
+
 	/// <summary>
 	/// Call to make unit start production of specified type.
 	/// </summary>
@@ -114,7 +117,7 @@ public:
 	/// <summary>
 	/// Creates a new button and adds it to the m_Buttons std::vector. The button will appear when the user clicks on this unit.
 	/// </summary>
-	void AddButton(Button button);
+	void AddButton(Button* button);
 	void DrawButtons();
 
 	void CalculateWalkableTiles();

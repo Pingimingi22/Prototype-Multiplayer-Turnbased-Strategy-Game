@@ -33,10 +33,10 @@ public:
 
 	void HandleInput(SDL_Event& e);
 
-	void PerformAction();
+	void PerformAction(Unit* unitCalling = nullptr);
 
 private:
 	void EndTurn();
-	void Produce();
+	void Produce(Unit* unitCalling);
 
 };

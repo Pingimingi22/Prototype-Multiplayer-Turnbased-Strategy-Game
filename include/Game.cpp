@@ -347,7 +347,7 @@ void Game::GenerateSpawnLocations()
 	usedCoords.push_back(serverCoords);
 
 	Building* newBuilding = new Building(serversTile, m_LocalPlayer, true, false, TileType::CASTLE, randomX, randomY, 6);
-	newBuilding->AddButton(*m_VillagerButton);
+	newBuilding->AddButton(m_VillagerButton);
 	// Adding to container of all game units.
 	m_AllUnits.push_back(newBuilding);
 
