@@ -168,8 +168,8 @@ void Tile::HandleInput(SDL_Event& e)
 						Unit* tileUnit = m_Game->m_CurrentlySelectedTile->m_Unit;
 						if (tileUnit)
 						{
-							if (!tileUnit->m_HasMovedThisTurn && m_Game->m_PlayerTurn == m_Game->m_LocalPlayer->m_PlayerTurnNum) // Can only move unit once
-							{																									 // and if it is our turn.
+							if (!tileUnit->m_HasMovedThisTurn && m_Game->m_PlayerTurn == m_Game->m_LocalPlayer->m_PlayerTurnNum && m_Game->m_CurrentlySelectedTile->m_Unit->m_OwnerTurnID == m_Game->m_LocalPlayer->m_PlayerTurnNum) // Can only move unit once
+							{																																																		 // and if it is our turn.
 
 								if (tileUnit == m_Unit)
 								{
