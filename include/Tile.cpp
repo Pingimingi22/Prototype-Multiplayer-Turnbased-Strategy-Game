@@ -246,11 +246,13 @@ std::string Tile::GetName()
 	}
 }
 
-void Tile::SetTile(TileType type)
+void Tile::SetTile(TileType type, bool passable)
 {
 	m_Type = type;
 	//m_Sprite->ResetTexture(GetTilePath(type));
 	m_Sprite->ResetTexture(GetCachedTexture(type));
+
+	m_Node->SetPassable(passable);
 }
 void Tile::SetSecondaryTile(TileType type)
 {

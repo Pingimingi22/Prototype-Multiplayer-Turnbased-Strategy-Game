@@ -102,7 +102,7 @@ public:
 	SDL_Texture* GetCachedTexture(TileType type);
 
 	
-	void SetTile(TileType type);
+	void SetTile(TileType type, bool passable = true);
 	/// <summary>
 	/// Sets an additional sprite to be rendered for this tile. Used when drawing villagers onto other tiles.
 	/// </summary>

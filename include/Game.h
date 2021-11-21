@@ -107,13 +107,13 @@ public:
 	void SendWorldGenerationComplete();
 	void EndTurn();
 
-	void PlaceUnit(Unit* unit);
+	void PlaceUnit(Unit* unit, bool passable = false);
 	void SendUnitMove(Vector2 posToGoTo, Unit* unit);
 
 
 	Tile* GetTile(int x, int y);
 
-	void SetTile(int x, int y, TileType type);
+	void SetTile(int x, int y, TileType type, bool passable = false);
 	void SetSecondaryTile(int x, int y, TileType type);
 
 

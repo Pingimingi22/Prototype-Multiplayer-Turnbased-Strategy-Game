@@ -280,7 +280,7 @@ void Unit::MoveTo(int pathIndex)
 	m_Tile->ClearUnit();
 
 	if (!m_HasSecondaryTile) // Don't need to set the tile back if we haven't replaced the tile.
-		m_Tile->SetTile(m_Tile->m_OriginalType);
+		m_Tile->SetTile(m_Tile->m_OriginalType, true);
 	else
 		m_Tile->RemoveSecondaryTile();
 
@@ -288,7 +288,7 @@ void Unit::MoveTo(int pathIndex)
 	if (m_HasSecondaryTile)
 		m_CurrentPath[pathIndex]->SetSecondaryTile(m_TileType);
 	else
-		m_CurrentPath[pathIndex]->SetTile(m_TileType);
+		m_CurrentPath[pathIndex]->SetTile(m_TileType, false);
 
 	m_CurrentPath[pathIndex]->AttachUnit(this);
 

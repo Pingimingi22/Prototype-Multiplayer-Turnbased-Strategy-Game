@@ -355,7 +355,7 @@ void Game::GenerateSpawnLocations()
 	m_AllUnits.push_back(newBuilding);
 
 	// Tile initialising stuff.
-	serversTile->SetTile(TileType::CASTLE);
+	serversTile->SetTile(TileType::CASTLE, false);
 	serversTile->AttachUnit(newBuilding);
 
 	for (int i = 0; i < m_OtherPlayers->size(); i++)
@@ -391,7 +391,7 @@ void Game::GenerateSpawnLocations()
 
 			m_AllUnits.push_back(newBuilding);
 
-			otherPlayerTile->SetTile(newBuilding->m_TileType);
+			otherPlayerTile->SetTile(newBuilding->m_TileType, false);
 			otherPlayerTile->AttachUnit(newBuilding);
 
 			//SendSpawnLocation(*newBuilding); we are now sending this information else where.
@@ -406,10 +406,10 @@ Tile* Game::GetTile(int x, int y)
 	return m_WorldGrid->GetTile(x, y);
 }
 
-void Game::SetTile(int x, int y, TileType type)
+void Game::SetTile(int x, int y, TileType type, bool passable)
 {
 	Tile* tile = GetTile(x, y);
-	tile->SetTile(type);
+	tile->SetTile(type, passable);
 }
 void Game::SetSecondaryTile(int x, int y, TileType type)
 {
@@ -432,7 +432,7 @@ void Game::SendSpawnLocation(Building spawnedCastle)
 
 }
 
-void Game::PlaceUnit(Unit* unit)
+void Game::PlaceUnit(Unit* unit, bool passable)
 {
 	Tile* tile = GetTile(unit->m_TileIndex.x, unit->m_TileIndex.y);
 	tile->AttachUnit(unit);
@@ -447,7 +447,7 @@ void Game::PlaceUnit(Unit* unit)
 	}
 	else
 	{
-		SetTile(unit->m_TileIndex.x, unit->m_TileIndex.y, unit->m_TileType);
+		SetTile(unit->m_TileIndex.x, unit->m_TileIndex.y, unit->m_TileType, passable);
 	}
 
 }
