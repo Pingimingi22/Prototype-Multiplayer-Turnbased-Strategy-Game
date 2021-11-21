@@ -164,7 +164,7 @@ void Tile::HandleInput(SDL_Event& e)
 
 					std::cout << "Hovered over tile and changed accordingly." << std::endl;	
 				}
-				if (e.type == SDL_MOUSEBUTTONDOWN && m_Game->m_CurrentlySelectedTile->m_Unit->CheckCanPlace(m_TempTypeCache))
+				if (e.type == SDL_MOUSEBUTTONDOWN && m_Game->m_CurrentlySelectedTile->m_Unit->CheckCanPlace(m_TempTypeCache) && !m_Unit)
 				{
 					m_Game->m_CurrentlySelectedTile->m_Unit->Place(this);
 					m_Game->m_CurrentlySelectedTile->m_Unit->Unhighlight();
