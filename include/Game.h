@@ -58,6 +58,7 @@ public:
 
 	Tile* m_CurrentlySelectedTile = nullptr;
 	Tile* m_CurrentlyHeldTile = nullptr; // Used when the player is placing down buildings.
+	bool m_IsPlacing = false;
 
 	// ========================= General Buttons ========================= //
 	std::vector<Button*> m_AllButtons;

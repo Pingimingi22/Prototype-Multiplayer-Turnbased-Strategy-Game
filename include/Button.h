@@ -5,7 +5,8 @@
 enum class BUTTON_TYPE
 {
 	END_TURN,
-	PRODUCE
+	PRODUCE,
+	PLACE // Like PRODUCE but to place buildings instantly.
 };
 
 class Unit;
@@ -40,5 +41,6 @@ public:
 private:
 	void EndTurn();
 	void Produce(Unit* unitCalling);
+	void Place(Unit* unitCalling);
 
 };

@@ -29,6 +29,18 @@ void Unit::DrawButtons()
 	}
 }
 
+void Unit::Place(Tile* tileToPlaceOn)
+{
+	TileType newTileType = m_Tile->ProductionTypeToTileType(m_ProductionType);
+	Unit* newUnit = new Unit(tileToPlaceOn, m_Owner, false, false, newTileType, tileToPlaceOn->m_Node->m_XIndex, tileToPlaceOn->m_Node->m_YIndex, 0, false);
+
+	m_Tile->m_Game->m_AllUnits.push_back(newUnit);
+
+	m_Tile->m_Game->PlaceUnit(newUnit, false);
+
+	m_Tile->m_Game->m_IsPlacing = false;
+}
+
 void Unit::StartProduction(PRODUCTION_TYPE type)
 {
 	m_ProductionType = type;

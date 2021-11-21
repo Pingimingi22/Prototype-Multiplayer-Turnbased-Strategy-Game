@@ -220,15 +220,15 @@ void Game::Init(int playerNum)
 
 		Sprite* activeLumber = new Sprite("images/lumber-mill-button-001.png", 900, 845, 64, 64, gRenderer);
 		Sprite* inactiveLumber = new Sprite("images/lumber-mill-button-inactive-001.png", 900, 845, 64, 64, gRenderer);
-		m_LumberButton = new Button(activeLumber, inactiveLumber, true, this, BUTTON_TYPE::PRODUCE, nullptr, PRODUCTION_TYPE::LUMBER);
+		m_LumberButton = new Button(activeLumber, inactiveLumber, true, this, BUTTON_TYPE::PLACE, nullptr, PRODUCTION_TYPE::LUMBER);
 
 		Sprite* activeFarm = new Sprite("images/farm-button-001.png", 975, 845, 64, 64, gRenderer);
 		Sprite* inactiveFarm = new Sprite("images/farm-button-inactive-001.png", 975, 845, 64, 64, gRenderer);
-		m_FarmButton = new Button(activeFarm, inactiveFarm, true, this, BUTTON_TYPE::PRODUCE, nullptr, PRODUCTION_TYPE::FARM);
+		m_FarmButton = new Button(activeFarm, inactiveFarm, true, this, BUTTON_TYPE::PLACE, nullptr, PRODUCTION_TYPE::FARM);
 
 		Sprite* activeQuarry = new Sprite("images/quarry-button-001.png", 1050, 845, 64, 64, gRenderer);
 		Sprite* inactiveQuarry = new Sprite("images/quarry-button-inactive-001.png", 1050, 845, 64, 64, gRenderer);
-		m_QuarryButton = new Button(activeQuarry, inactiveQuarry, true, this, BUTTON_TYPE::PRODUCE, nullptr, PRODUCTION_TYPE::QUARRY);
+		m_QuarryButton = new Button(activeQuarry, inactiveQuarry, true, this, BUTTON_TYPE::PLACE, nullptr, PRODUCTION_TYPE::QUARRY);
 
 		// ======================================================================= //
 
@@ -284,13 +284,13 @@ void Game::Update(SDL_Event& e)
 			std::cout << "Mouse button down." << std::endl;
 		}
 
-		
+		// Moved out of SDL_PollEvent because it should be updated regardless of the key states.
+		m_WorldGrid->HandleInput(e);
 		for (int i = 0; i < m_AllButtons.size(); i++)
 			m_AllButtons[i]->HandleInput(e);
 	}
 
-	// Moved out of SDL_PollEvent because it should be updated regardless of the key states.
-	m_WorldGrid->HandleInput(e);
+	
 
 
 	if (!m_AllPlayersGenerationCompleted && m_LocalPlayer->m_IsServer)

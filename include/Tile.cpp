@@ -146,37 +146,51 @@ void Tile::HandleInput(SDL_Event& e)
 	SDL_GetMouseState(&x, &y);
 	m_IsHovering = false;
 
-	if ((float)x > m_xPos && (float)x < m_xPos + m_Width)
+	if (m_Game->m_IsPlacing)
 	{
-		if ((float)y > m_yPos && (float)y < m_yPos + m_Height)
+		if ((float)x > m_xPos && (float)x < m_xPos + m_Width)
 		{
-			m_IsHovering = true;
-			m_Game->m_TileSelectText.SetText(GetName());
-
-			if (!m_HasTempChange && !m_Unit) // Don't want to draw over units.
+			if ((float)y > m_yPos && (float)y < m_yPos + m_Height)
 			{
-				m_HasTempChange = true;
-				m_PrevPassableState = m_Node->m_Passable;
-				SetTile(TileType::MOUNTAIN, false);
+				m_IsHovering = true;
+				m_Game->m_TileSelectText.SetText(GetName());
 
-				std::cout << "Hovered over tile and changed accordingly." << std::endl;
+				if (!m_HasTempChange && !m_Unit) // Don't want to draw over units.
+				{
+					m_HasTempChange = true;
+					m_PrevPassableState = m_Node->m_Passable;
+					SetTile(ProductionTypeToTileType(m_Game->m_CurrentlySelectedTile->m_Unit->m_ProductionType), false);
+
+					std::cout << "Hovered over tile and changed accordingly." << std::endl;	
+				}
+				if (e.type == SDL_MOUSEBUTTONDOWN)
+				{
+					m_Game->m_CurrentlySelectedTile->m_Unit->Place(this);
+					m_Game->m_CurrentlySelectedTile = nullptr;
+
+					m_HasTempChange = false;
+					m_IsHovering = false;
+					
+				}
 			}
+		}
+
+
+
+		if (m_HasTempChange && !m_IsHovering)
+		{
+			SetTile(m_OriginalType, m_PrevPassableState);
+			m_IsHovering = false;
+			m_HasTempChange = false;
+
 		}
 	}
 
-
-
-	if (m_HasTempChange && !m_IsHovering)
-	{
-		SetTile(m_OriginalType, m_PrevPassableState);
-		m_IsHovering = false;
-		m_HasTempChange = false;
-
-	}
+	
 
 	// ------------------------------------------------------------------------------------------ //
 
-	if (e.type == SDL_MOUSEBUTTONDOWN)
+	if (e.type == SDL_MOUSEBUTTONDOWN && !m_Game->m_IsPlacing)
 	{
 		//int x, y;
 		if (SDL_GetMouseState(&x, &y))

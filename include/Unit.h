@@ -31,6 +31,8 @@ public:
 		m_HasSecondaryTile = secondaryTile;
 	}
 
+	//bool m_IsPlacing = false; // moved to Game.cpp
+
 	bool m_HasSecondaryTile = false;
 	bool m_CanBuild;
 	bool m_IsMobile;
@@ -73,6 +75,8 @@ public:
 
 
 	void HandleInput(SDL_Event& e);
+
+	void Place(Tile* tileToPlaceOn);
 
 	/// <summary>
 	/// Call to make unit start production of specified type.

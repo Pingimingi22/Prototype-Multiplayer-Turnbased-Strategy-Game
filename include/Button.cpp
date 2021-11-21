@@ -70,6 +70,9 @@ void Button::PerformAction(Unit* unitCalling)
 		std::cout << "Producing item." << std::endl;
 		Produce(unitCalling);
 		break;
+	case BUTTON_TYPE::PLACE:
+		std::cout << "Placing item." << std::endl;
+		Place(unitCalling);
 	default:
 		std::cout << "Error, button PerformAction() could not find a matching BUTTON_TYPE." << std::endl;
 		break;
@@ -94,4 +97,17 @@ void Button::Produce(Unit* unitCalling)
 		std::cout << "Button that was clicked tried to produce an item, but no unit is attached to this button!" << std::endl;
 	}
 
+}
+
+void Button::Place(Unit* unitCalling)
+{
+	if (unitCalling)
+	{
+		unitCalling->m_ProductionType = m_prodType;
+		m_Game->m_IsPlacing = true;
+	}
+	else
+	{
+		std::cout << "Button that was clicked tried to place an item, but no unit is attached to this button!" << std::endl;
+	}
 }
