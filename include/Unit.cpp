@@ -48,6 +48,7 @@ void Unit::Place(Tile* tileToPlaceOn)
 	prodPack.m_TileIndex = newUnit->m_TileIndex;
 	prodPack.OwnerTurnID = newUnit->m_OwnerTurnID;
 	prodPack.ProduceTileType = m_Tile->ProductionTypeToTileType(m_ProductionType);
+	prodPack.Reach = newUnit->m_Reach;
 
 	m_Tile->m_Game->m_LocalPlayer->peer->Send((char*)&prodPack, sizeof(UnitProductionPacket), PacketPriority::HIGH_PRIORITY, PacketReliability::RELIABLE_ORDERED, 0, RakNet::UNASSIGNED_RAKNET_GUID, true);
 	
@@ -169,7 +170,7 @@ void Unit::CalculateWalkableTiles(bool ignorePassability)
 {
 	m_WalkableTiles.clear(); // Clear previous calculation.
 
-	std::vector<Node*> nodesUnderGScore = Dijkstra::GetNodesUnderGScore(3.1f, m_Tile->m_Node, ignorePassability);
+	std::vector<Node*> nodesUnderGScore = Dijkstra::GetNodesUnderGScore(m_Reach, m_Tile->m_Node, ignorePassability);
 	for (int i = 0; i < nodesUnderGScore.size(); i++)
 	{
 		m_WalkableTiles.push_back(m_Tile->m_Game->GetTile(nodesUnderGScore[i]->m_XIndex, nodesUnderGScore[i]->m_YIndex));

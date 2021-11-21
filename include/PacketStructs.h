@@ -82,6 +82,8 @@ struct UnitProductionPacket
 	bool IsMobile;
 
 	int OwnerTurnID;
+
+	float Reach;
 };
 #pragma pack(pop)
 

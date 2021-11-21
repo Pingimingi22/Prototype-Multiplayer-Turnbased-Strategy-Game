@@ -12,7 +12,7 @@ class Unit
 {
 public:
 	Unit() {}
-	Unit(Tile* attachedTile, Player* owner, bool canBuild, bool isMobile, TileType tileType, float tileXIndex, float tileYIndex, unsigned int reach, bool secondaryTile = false)
+	Unit(Tile* attachedTile, Player* owner, bool canBuild, bool isMobile, TileType tileType, float tileXIndex, float tileYIndex, float reach, bool secondaryTile = false)
 	{
 		m_Tile = attachedTile;
 		m_Owner = owner;

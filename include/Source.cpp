@@ -209,7 +209,7 @@ int main(int argc, char* args[])
                 std::cout << "A castle has been constructed by " << castleOwner->m_username << "." << std::endl;
             
                 // Making a copy of the received unit to store in our game.
-                Unit* newCastleUnit = new Unit(game->GetTile(receivedCastle->m_TileIndex.x, receivedCastle->m_TileIndex.y), castleOwner, receivedCastle->CanBuild, receivedCastle->IsMobile, receivedCastle->TileType, receivedCastle->m_TileIndex.x, receivedCastle->m_TileIndex.y, 6);//hello
+                Unit* newCastleUnit = new Unit(game->GetTile(receivedCastle->m_TileIndex.x, receivedCastle->m_TileIndex.y), castleOwner, receivedCastle->CanBuild, receivedCastle->IsMobile, receivedCastle->TileType, receivedCastle->m_TileIndex.x, receivedCastle->m_TileIndex.y, 0);//hello
 
                 newCastleUnit->m_Owner = castleOwner;
                 newCastleUnit->AddButton(game->m_VillagerButton);
@@ -270,6 +270,7 @@ int main(int argc, char* args[])
                             prodPack.CanBuild = producedUnit->m_CanBuild;
                             prodPack.IsMobile = producedUnit->m_IsMobile;
                             prodPack.OwnerTurnID = game->m_LocalPlayer->m_PlayerTurnNum;
+                            prodPack.Reach = producedUnit->m_Reach;
 
 
                             localPlayer->peer->Send((char*)&prodPack, sizeof(UnitProductionPacket), PacketPriority::HIGH_PRIORITY, PacketReliability::RELIABLE_ORDERED, 0, RakNet::UNASSIGNED_RAKNET_GUID, true);
@@ -302,7 +303,7 @@ int main(int argc, char* args[])
                     }
                 }
 
-                Unit* newUnit = new Unit(tileToSet, thePlayer, prodPack->CanBuild, prodPack->IsMobile, prodPack->ProduceTileType, prodPack->m_TileIndex.x, prodPack->m_TileIndex.y, 5, true);
+                Unit* newUnit = new Unit(tileToSet, thePlayer, prodPack->CanBuild, prodPack->IsMobile, prodPack->ProduceTileType, prodPack->m_TileIndex.x, prodPack->m_TileIndex.y, prodPack->Reach, true);
                 game->m_AllUnits.push_back(newUnit);
                 tileToSet->m_Game->PlaceUnit(newUnit);
 
