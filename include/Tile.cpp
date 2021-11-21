@@ -159,11 +159,12 @@ void Tile::HandleInput(SDL_Event& e)
 				{
 					m_HasTempChange = true;
 					m_PrevPassableState = m_Node->m_Passable;
+					m_TempTypeCache = m_Type;
 					SetTile(ProductionTypeToTileType(m_Game->m_CurrentlySelectedTile->m_Unit->m_ProductionType), false);
 
 					std::cout << "Hovered over tile and changed accordingly." << std::endl;	
 				}
-				if (e.type == SDL_MOUSEBUTTONDOWN && m_Game->m_CurrentlySelectedTile->m_Unit->CheckCanPlace(m_OriginalType))
+				if (e.type == SDL_MOUSEBUTTONDOWN && m_Game->m_CurrentlySelectedTile->m_Unit->CheckCanPlace(m_TempTypeCache))
 				{
 					m_Game->m_CurrentlySelectedTile->m_Unit->Place(this);
 					m_Game->m_CurrentlySelectedTile->m_Unit->Unhighlight();
@@ -181,7 +182,7 @@ void Tile::HandleInput(SDL_Event& e)
 
 		if (m_HasTempChange && !m_IsHovering)
 		{
-			SetTile(m_OriginalType, m_PrevPassableState);
+			SetTile(m_TempTypeCache, m_PrevPassableState);
 			m_IsHovering = false;
 			m_HasTempChange = false;
 

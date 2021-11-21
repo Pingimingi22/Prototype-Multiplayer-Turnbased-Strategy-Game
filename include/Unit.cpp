@@ -75,7 +75,7 @@ bool Unit::Produce(Unit*& outputUnit, Tile& output)
 			TileType newTileType = m_Tile->ProductionTypeToTileType(m_ProductionType);
 
 			// We have atleast one spot to put the produced item.
-			Unit* newUnit = new Unit(m_Tile->m_Game->GetTile(availableTile.m_Node->m_XIndex, availableTile.m_Node->m_YIndex), m_Owner, true, true, newTileType, availableTile.m_Node->m_XIndex, availableTile.m_Node->m_YIndex, 5, true);
+			Unit* newUnit = new Unit(m_Tile->m_Game->GetTile(availableTile.m_Node->m_XIndex, availableTile.m_Node->m_YIndex), m_Owner, true, true, newTileType, availableTile.m_Node->m_XIndex, availableTile.m_Node->m_YIndex, 3.14f, true);
 			newUnit->AddButton(m_Tile->m_Game->m_LumberButton);
 			newUnit->AddButton(m_Tile->m_Game->m_QuarryButton);
 			newUnit->AddButton(m_Tile->m_Game->m_FarmButton);

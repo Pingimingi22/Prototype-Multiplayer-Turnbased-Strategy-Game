@@ -31,6 +31,7 @@ private:
 	bool m_HasTempChange = false;
 	bool m_PrevPassableState = false;
 	bool m_IsHovering = false;
+	TileType m_TempTypeCache; // Temporary var used to store tile type after being hovered over with mouse.
 public:
 	Sprite* m_Sprite;
 	TileType m_Type;
