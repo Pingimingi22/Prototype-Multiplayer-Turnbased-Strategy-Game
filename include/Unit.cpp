@@ -165,11 +165,11 @@ void Unit::ToggleButtons(bool toggle)
 	}
 }
 
-void Unit::CalculateWalkableTiles()
+void Unit::CalculateWalkableTiles(bool ignorePassability)
 {
 	m_WalkableTiles.clear(); // Clear previous calculation.
 
-	std::vector<Node*> nodesUnderGScore = Dijkstra::GetNodesUnderGScore(3.1f, m_Tile->m_Node);
+	std::vector<Node*> nodesUnderGScore = Dijkstra::GetNodesUnderGScore(3.1f, m_Tile->m_Node, ignorePassability);
 	for (int i = 0; i < nodesUnderGScore.size(); i++)
 	{
 		m_WalkableTiles.push_back(m_Tile->m_Game->GetTile(nodesUnderGScore[i]->m_XIndex, nodesUnderGScore[i]->m_YIndex));
@@ -230,15 +230,26 @@ void Unit::HighlightWalkable()
 		}
 		else
 		{
-			if (currentTile->m_Node->m_Passable)
+			// If we are placing a tile, we want to only highligh the tiles that the tile can be placed on.
+			if (m_Tile->m_Game->m_IsPlacing)
 			{
-				if (m_Owner == m_Tile->m_Game->m_LocalPlayer) // If we own it, show walkable tiles as blue
-					m_WalkableTiles[i]->SetHighlight(0, 0, 255, 100, true); // Highlight blue if passable.
-				else // Otherwise, show walkable tiles as yellow.
-					m_WalkableTiles[i]->SetHighlight(255, 241, 161, 100, true);
+				if (CheckCanPlace(m_WalkableTiles[i]->m_Type))
+					m_WalkableTiles[i]->SetHighlight(0, 0, 255, 100, true);
+				else
+					m_WalkableTiles[i]->SetHighlight(255, 0, 0, 100, true);
 			}
 			else
-				m_WalkableTiles[i]->SetHighlight(255, 0, 0, 100, true); // Red if not passable.
+			{
+				if (currentTile->m_Node->m_Passable)
+				{
+					if (m_Owner == m_Tile->m_Game->m_LocalPlayer) // If we own it, show walkable tiles as blue
+						m_WalkableTiles[i]->SetHighlight(0, 0, 255, 100, true); // Highlight blue if passable.
+					else // Otherwise, show walkable tiles as yellow.
+						m_WalkableTiles[i]->SetHighlight(255, 241, 161, 100, true);
+				}
+				else
+					m_WalkableTiles[i]->SetHighlight(255, 0, 0, 100, true); // Red if not passable.
+			}
 		}
 
 	}
@@ -356,4 +367,31 @@ void Unit::HandleInput(SDL_Event& e)
 			}
 		}
 	}
+}
+
+bool Unit::CheckCanPlace(TileType tileType)
+{
+	switch (m_ProductionType)
+	{
+	case PRODUCTION_TYPE::FARM:
+		if (tileType == TileType::GRASS)
+		{
+			return true;
+		}
+		break;
+	case PRODUCTION_TYPE::QUARRY:
+		if (tileType == TileType::MOUNTAIN)
+		{
+			return true;
+		}
+		break;
+	case PRODUCTION_TYPE::LUMBER:
+		if (tileType == TileType::FOREST)
+		{
+			return true;
+		}
+		break;
+	}
+	// If it doesn't hit any of those then it will return false.
+	return false;
 }

@@ -124,7 +124,7 @@ public:
 	void AddButton(Button* button);
 	void DrawButtons();
 
-	void CalculateWalkableTiles();
+	void CalculateWalkableTiles(bool ignorePassability = false);
 
 	void HighlightWalkable();
 	void Unhighlight();
@@ -137,5 +137,12 @@ public:
 	void UpdateMove();
 
 	bool IsNodeReachable(Node* node);
+
+	/// <summary>
+	/// Checks if the unit can place it's production type on the passed in tile type.
+	/// </summary>
+	/// <param name="tileType">Type of the tile that you want to place the unit on.</param>
+	/// <returns>True is returned if it can place the production type on the passed in tile.</returns>
+	bool CheckCanPlace(TileType tileType);
 
 };

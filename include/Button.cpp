@@ -103,8 +103,14 @@ void Button::Place(Unit* unitCalling)
 {
 	if (unitCalling)
 	{
-		unitCalling->m_ProductionType = m_prodType;
 		m_Game->m_IsPlacing = true;
+		unitCalling->m_ProductionType = m_prodType;
+		// Re-highlight the tiles to highlight the tiles that the new unit can be placed on.
+		m_Game->m_CurrentlySelectedTile->m_Unit->Unhighlight();
+
+		m_Game->m_CurrentlySelectedTile->m_Unit->CalculateWalkableTiles(true);
+		m_Game->m_CurrentlySelectedTile->m_Unit->HighlightWalkable();
+
 	}
 	else
 	{
