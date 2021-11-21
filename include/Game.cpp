@@ -520,6 +520,14 @@ void Game::EndTurn()
 				if(m_AllUnits[i]->Produce(testUnit));
 		}
 	}
+
+	// If we were selecting a unit, we have to unhighlight it's selection and re-highlight it since it hasn't been updated yet.
+	// This is the equivalent of us clicking off of the unit and then back on to re-do the highlight.
+	if (m_CurrentlySelectedTile && m_CurrentlySelectedTile->m_Unit)
+	{
+		m_CurrentlySelectedTile->m_Unit->Unhighlight();
+		m_CurrentlySelectedTile->m_Unit->HighlightWalkable();
+	}
 }
 
 

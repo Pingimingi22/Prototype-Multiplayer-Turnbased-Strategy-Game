@@ -166,10 +166,12 @@ void Tile::HandleInput(SDL_Event& e)
 				if (e.type == SDL_MOUSEBUTTONDOWN)
 				{
 					m_Game->m_CurrentlySelectedTile->m_Unit->Place(this);
+					m_Game->m_CurrentlySelectedTile->m_Unit->Unhighlight();
 					m_Game->m_CurrentlySelectedTile = nullptr;
 
 					m_HasTempChange = false;
 					m_IsHovering = false;
+
 					
 				}
 			}

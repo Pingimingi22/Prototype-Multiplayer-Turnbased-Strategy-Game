@@ -240,6 +240,15 @@ int main(int argc, char* args[])
                 EndTurnPacket* turnPacket = (EndTurnPacket*)packet->data;
                 game->m_PlayerTurn = turnPacket->playerTurnID; // Set our player turn to the next player.
 
+                // If we were selecting a unit, we have to unhighlight it's selection and re-highlight it since it hasn't been updated yet.
+                // This is the equivalent of us clicking off of the unit and then back on to re-do the highlight.
+                if (game->m_CurrentlySelectedTile && game->m_CurrentlySelectedTile->m_Unit)
+                {
+                    game->m_CurrentlySelectedTile->m_Unit->Unhighlight();
+                    game->m_CurrentlySelectedTile->m_Unit->HighlightWalkable();
+                }
+
+
                 // When we receive an END_TURN packet, that means a new turn has started. Here we will
                 // update all of our unit structures productions.
                 for (int i = 0; i < game->m_AllUnits.size(); i++)
@@ -304,6 +313,12 @@ int main(int argc, char* args[])
                 std::cout << "Received a unit move packet." << std::endl;
 
                 UnitMovePacket* movePack = (UnitMovePacket*)packet->data;
+
+                if (game->m_CurrentlySelectedTile && game->m_CurrentlySelectedTile->m_Unit)
+                {
+                    // If we were selecting a unit, we have to make sure to unhighlight walkable areas since the other player may have moved it.
+                    game->m_CurrentlySelectedTile->m_Unit->Unhighlight();
+                }
 
                 // We need to find what unit they moved, so we take the original tile position from the packet and find a matching unit.
                 for (int i = 0; i < game->m_AllUnits.size(); i++)
