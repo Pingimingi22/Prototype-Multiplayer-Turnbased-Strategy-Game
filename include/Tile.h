@@ -27,6 +27,10 @@ enum TileID
 
 class Tile
 {
+private:
+	bool m_HasTempChange = false;
+	bool m_PrevPassableState = false;
+	bool m_IsHovering = false;
 public:
 	Sprite* m_Sprite;
 	TileType m_Type;

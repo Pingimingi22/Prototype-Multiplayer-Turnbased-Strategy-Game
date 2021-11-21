@@ -284,10 +284,14 @@ void Game::Update(SDL_Event& e)
 			std::cout << "Mouse button down." << std::endl;
 		}
 
-		m_WorldGrid->HandleInput(e);
+		
 		for (int i = 0; i < m_AllButtons.size(); i++)
 			m_AllButtons[i]->HandleInput(e);
 	}
+
+	// Moved out of SDL_PollEvent because it should be updated regardless of the key states.
+	m_WorldGrid->HandleInput(e);
+
 
 	if (!m_AllPlayersGenerationCompleted && m_LocalPlayer->m_IsServer)
 	{

@@ -139,9 +139,46 @@ void Tile::HandleInput(SDL_Event& e)
 		}
 	}
 
+	int x, y;
+
+	// ----------------------------- Temporary Hover Tile Selection ----------------------------- //
+
+	SDL_GetMouseState(&x, &y);
+	m_IsHovering = false;
+
+	if ((float)x > m_xPos && (float)x < m_xPos + m_Width)
+	{
+		if ((float)y > m_yPos && (float)y < m_yPos + m_Height)
+		{
+			m_IsHovering = true;
+			m_Game->m_TileSelectText.SetText(GetName());
+
+			if (!m_HasTempChange && !m_Unit) // Don't want to draw over units.
+			{
+				m_HasTempChange = true;
+				m_PrevPassableState = m_Node->m_Passable;
+				SetTile(TileType::MOUNTAIN, false);
+
+				std::cout << "Hovered over tile and changed accordingly." << std::endl;
+			}
+		}
+	}
+
+
+
+	if (m_HasTempChange && !m_IsHovering)
+	{
+		SetTile(m_OriginalType, m_PrevPassableState);
+		m_IsHovering = false;
+		m_HasTempChange = false;
+
+	}
+
+	// ------------------------------------------------------------------------------------------ //
+
 	if (e.type == SDL_MOUSEBUTTONDOWN)
 	{
-		int x, y;
+		//int x, y;
 		if (SDL_GetMouseState(&x, &y))
 		{
 			if (x > m_xPos && x < m_xPos + m_Width)

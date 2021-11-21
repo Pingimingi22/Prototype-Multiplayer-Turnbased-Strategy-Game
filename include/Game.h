@@ -57,6 +57,7 @@ public:
 	Sprite* m_SelectTexture;
 
 	Tile* m_CurrentlySelectedTile = nullptr;
+	Tile* m_CurrentlyHeldTile = nullptr; // Used when the player is placing down buildings.
 
 	// ========================= General Buttons ========================= //
 	std::vector<Button*> m_AllButtons;
