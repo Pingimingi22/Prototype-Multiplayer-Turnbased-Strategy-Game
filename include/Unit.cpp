@@ -5,6 +5,8 @@
 
 #include "Dijkstra.h"
 
+#include "PacketStructs.h"
+
 // =============== Defines of some general gameplay stuff =============== //
 #define VILLAGER_PRODUCTION_TURNS 2 // Takes 2 turns to produce one villager.
 #define LUMBER_PRODUCTION_TURNS 0
@@ -39,6 +41,16 @@ void Unit::Place(Tile* tileToPlaceOn)
 	m_Tile->m_Game->PlaceUnit(newUnit, false);
 
 	m_Tile->m_Game->m_IsPlacing = false;
+
+	UnitProductionPacket prodPack;
+	prodPack.CanBuild = newUnit->m_CanBuild;
+	prodPack.IsMobile = newUnit->m_IsMobile;
+	prodPack.m_TileIndex = newUnit->m_TileIndex;
+	prodPack.OwnerTurnID = newUnit->m_OwnerTurnID;
+	prodPack.ProduceTileType = m_Tile->ProductionTypeToTileType(m_ProductionType);
+
+	m_Tile->m_Game->m_LocalPlayer->peer->Send((char*)&prodPack, sizeof(UnitProductionPacket), PacketPriority::HIGH_PRIORITY, PacketReliability::RELIABLE_ORDERED, 0, RakNet::UNASSIGNED_RAKNET_GUID, true);
+	
 }
 
 void Unit::StartProduction(PRODUCTION_TYPE type)
