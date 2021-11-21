@@ -170,8 +170,16 @@ void Tile::HandleInput(SDL_Event& e)
 						{
 							if (!tileUnit->m_HasMovedThisTurn && m_Game->m_PlayerTurn == m_Game->m_LocalPlayer->m_PlayerTurnNum) // Can only move unit once
 							{																									 // and if it is our turn.
+
+								if (tileUnit == m_Unit)
+								{
+									// We clicked on the same unit that we are, so we should deselect ourselves.
+									m_Game->m_CurrentlySelectedTile = nullptr;
+									hasSelectedSameUnit = true;
+								}
+
 								// Only attempt to move the unit if the passed in node is reachable.
-								if (m_Game->m_CurrentlySelectedTile->m_Unit->IsNodeReachable(m_Node))
+								else if (m_Game->m_CurrentlySelectedTile->m_Unit->IsNodeReachable(m_Node))
 								{
 									tileUnit->Move(Dijkstra::GetShortestPath(tileUnit->m_Tile->m_Node, m_Node));
 
@@ -182,9 +190,11 @@ void Tile::HandleInput(SDL_Event& e)
 									m_Game->m_CurrentlySelectedTile = nullptr;
 
 									movedUnit = true;
-									hasSelectedSameUnit = true;
+									hasSelectedSameUnit = false;
 								}
 							}
+
+							// This extra else if is required because it allows us to deselect units after they have moved or if it is not our turn.
 							else if (tileUnit == m_Unit)
 							{
 								// We clicked on the same unit that we are, so we should deselect ourselves.

@@ -3,6 +3,8 @@
 #include "Grid.h"
 #include "Game.h"
 
+#include "Dijkstra.h"
+
 // =============== Defines of some general gameplay stuff =============== //
 #define VILLAGER_PRODUCTION_TURNS 2 // Takes 2 turns to produce one villager.
 #define LUMBER_PRODUCTION_TURNS 0
@@ -72,6 +74,10 @@ bool Unit::Produce(Unit*& outputUnit, Tile& output)
 			ToggleButtons(true);
 
 			output = availableTile;
+
+			// Re-generate walkable tiles.
+			CalculateWalkableTiles();
+
 			return true;
 		}
 		else
@@ -139,53 +145,53 @@ void Unit::CalculateWalkableTiles()
 {
 	m_WalkableTiles.clear(); // Clear previous calculation.
 
-	Node* currentNode = m_Tile->m_Node;
-
-	unsigned int currentReachLevel = 0;
-
-	std::vector<Node*> currentLevel;
-
-	// Get the initial 8 tiles.
-	for (int i = 0; i < currentNode->m_ConnectedNodes.size(); i++)
+	std::vector<Node*> nodesUnderGScore = Dijkstra::GetNodesUnderGScore(3.1f, m_Tile->m_Node);
+	for (int i = 0; i < nodesUnderGScore.size(); i++)
 	{
-		Node* nodeToAdd = currentNode->m_ConnectedNodes[i];
-
-		Tile* tile = m_Tile->m_Game->GetTile(nodeToAdd->m_XIndex, nodeToAdd->m_YIndex);
-
-		currentLevel.push_back(nodeToAdd);
-		m_WalkableTiles.push_back(tile);
-	}
-	currentReachLevel++; // We increment reach level to 1.
-
-
-	std::vector<Node*> temp; // This should contain the outer ring which represents the next level.
-	while (currentReachLevel < m_Reach)
-	{
-		for (int i = 0; i < currentLevel.size(); i++)
-		{
-			currentNode = currentLevel[i];
-			for (int j = 0; j < currentNode->m_ConnectedNodes.size(); j++)
-			{
-				temp.push_back(currentNode->m_ConnectedNodes[j]);
-			}
-		}
-		
-		currentLevel.clear();
-		for (int i = 0; i < temp.size(); i++)
-		{
-			currentLevel.push_back(temp[i]);
-			m_WalkableTiles.push_back(m_Tile->m_Game->GetTile(temp[i]->m_XIndex, temp[i]->m_YIndex));
-		}
-		temp.clear();
-
-		currentReachLevel++;
+		m_WalkableTiles.push_back(m_Tile->m_Game->GetTile(nodesUnderGScore[i]->m_XIndex, nodesUnderGScore[i]->m_YIndex));
 	}
 
+	//Node* currentNode = m_Tile->m_Node;
+
+	//unsigned int currentReachLevel = 0;
+
+	//std::vector<Node*> currentLevel;
+
+	//// Get the initial 8 tiles.
+	//for (int i = 0; i < currentNode->m_ConnectedNodes.size(); i++)
+	//{
+	//	Node* nodeToAdd = currentNode->m_ConnectedNodes[i];
+
+	//	Tile* tile = m_Tile->m_Game->GetTile(nodeToAdd->m_XIndex, nodeToAdd->m_YIndex);
+
+	//	currentLevel.push_back(nodeToAdd);
+	//	m_WalkableTiles.push_back(tile);
+	//}
+	//currentReachLevel++; // We increment reach level to 1.
 
 
-	
+	//std::vector<Node*> temp; // This should contain the outer ring which represents the next level.
+	//while (currentReachLevel < m_Reach)
+	//{
+	//	for (int i = 0; i < currentLevel.size(); i++)
+	//	{
+	//		currentNode = currentLevel[i];
+	//		for (int j = 0; j < currentNode->m_ConnectedNodes.size(); j++)
+	//		{
+	//			temp.push_back(currentNode->m_ConnectedNodes[j]);
+	//		}
+	//	}
+	//	
+	//	currentLevel.clear();
+	//	for (int i = 0; i < temp.size(); i++)
+	//	{
+	//		currentLevel.push_back(temp[i]);
+	//		m_WalkableTiles.push_back(m_Tile->m_Game->GetTile(temp[i]->m_XIndex, temp[i]->m_YIndex));
+	//	}
+	//	temp.clear();
 
-
+	//	currentReachLevel++;
+	//}
 }
 
 void Unit::HighlightWalkable()
@@ -193,15 +199,24 @@ void Unit::HighlightWalkable()
 	for (int i = 0; i < m_WalkableTiles.size(); i++)
 	{
 		Tile* currentTile = m_WalkableTiles[i];
-		if (currentTile->m_Node->m_Passable)
+
+		if (m_HasMovedThisTurn || m_Tile->m_Game->m_LocalPlayer->m_PlayerTurnNum != m_Tile->m_Game->m_PlayerTurn)
 		{
-			if (m_Owner == m_Tile->m_Game->m_LocalPlayer) // If we own it, show walkable tiles as blue
-				m_WalkableTiles[i]->SetHighlight(0, 0, 255, 100, true); // Highlight blue if passable.
-			else // Otherwise, show walkable tiles as yellow.
-				m_WalkableTiles[i]->SetHighlight(255, 241, 161, 100, true);
+			m_WalkableTiles[i]->SetHighlight(125, 125, 125, 100, true);
 		}
 		else
-			m_WalkableTiles[i]->SetHighlight(255, 0, 0, 100, true); // Red if not passable.
+		{
+			if (currentTile->m_Node->m_Passable)
+			{
+				if (m_Owner == m_Tile->m_Game->m_LocalPlayer) // If we own it, show walkable tiles as blue
+					m_WalkableTiles[i]->SetHighlight(0, 0, 255, 100, true); // Highlight blue if passable.
+				else // Otherwise, show walkable tiles as yellow.
+					m_WalkableTiles[i]->SetHighlight(255, 241, 161, 100, true);
+			}
+			else
+				m_WalkableTiles[i]->SetHighlight(255, 0, 0, 100, true); // Red if not passable.
+		}
+
 	}
 }
 

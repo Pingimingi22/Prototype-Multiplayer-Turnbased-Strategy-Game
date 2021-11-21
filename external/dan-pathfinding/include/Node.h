@@ -16,8 +16,8 @@ public:
 
 	// Dijkstra internal searching stuff.
 	Node* m_Previous;
-	int m_Cost;
-	int m_GScore;
+	float m_Cost;
+	float m_GScore;
 
 	Node();
 	Node(int x, int y);
@@ -25,6 +25,8 @@ public:
 	void ResetPrevious(); // helper function for pathfinding.
 	bool Compare(Node* otherNode);
 	void SetPassable(bool toggle);
+
+	bool CheckIfConnected(Node* node);
 	
 
 };

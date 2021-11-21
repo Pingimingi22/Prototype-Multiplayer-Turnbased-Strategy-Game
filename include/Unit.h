@@ -35,7 +35,7 @@ public:
 	bool m_CanBuild;
 	bool m_IsMobile;
 	// Reach for the walkable tiles that this unit can walk to or reach.
-	unsigned int m_Reach = 0;
+	float m_Reach = 0;
 
 	bool m_HasMovedThisTurn = false;
 
