@@ -224,16 +224,6 @@ void Tile::HandleInput(SDL_Event& e)
 			{
 				if (y > m_yPos && y < m_yPos + m_Height)
 				{
-					m_Game->m_SelectTexture->m_Rect->x = m_xPos;
-					m_Game->m_SelectTexture->m_Rect->y = m_yPos;
-					std::cout << "Clicked a " << GetName() << " tile." << std::endl;
-					m_Game->m_TileSelectText.SetText(GetName());
-
-					// Unhighlight previously highlighted selection.
-					if(m_Game->m_CurrentlySelectedTile && m_Game->m_CurrentlySelectedTile->m_Unit)
-						m_Game->m_CurrentlySelectedTile->m_Unit->Unhighlight();
-
-
 					bool isAttacking = false;
 					// Before we attempt to move the unit, we have to check if the user has attacked with a villager.
 					if (m_Game->m_CurrentlySelectedTile && m_Game->m_CurrentlySelectedTile->m_Unit && m_Game->m_CurrentlySelectedTile->m_Unit->m_TileType == TileType::VILLAGER)
@@ -261,6 +251,18 @@ void Tile::HandleInput(SDL_Event& e)
 					}
 					if(!isAttacking)
 					{
+
+						m_Game->m_SelectTexture->m_Rect->x = m_xPos;
+						m_Game->m_SelectTexture->m_Rect->y = m_yPos;
+						std::cout << "Clicked a " << GetName() << " tile." << std::endl;
+						m_Game->m_TileSelectText.SetText(GetName());
+
+						// Unhighlight previously highlighted selection.
+						if (m_Game->m_CurrentlySelectedTile && m_Game->m_CurrentlySelectedTile->m_Unit)
+							m_Game->m_CurrentlySelectedTile->m_Unit->Unhighlight();
+
+
+
 						// To track whether or not we moved a unit with this selection.
 						bool movedUnit = false;
 						bool hasSelectedSameUnit = false;
