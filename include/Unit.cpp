@@ -18,6 +18,28 @@
 
 // ====================================================================== //
 
+
+
+Unit::~Unit()
+{
+
+	m_Tile->ClearUnit();
+	m_Tile = nullptr;
+
+	// Button's are not ours to delete, they are created in Game.cpp and should be deleted there.
+	/*for (int i = m_Buttons.size() - 1; i > 0; i--)
+	{
+		delete m_Buttons[i];
+	}*/
+
+	m_Buttons.clear();
+	m_WalkableTiles.clear();
+	m_AttackableTiles.clear();
+	m_CurrentPath.clear();
+}
+
+
+
 void Unit::AddButton(Button* button)
 {
 	//Button* newButton = new Button(button.m_ActiveSprite, button.m_InactiveSprite, true, button.m_Game, button.m_Type, this); // Important last parameter.
@@ -507,7 +529,17 @@ void Unit::TakeDamage(float damage)
 {
 	m_Health -= damage;
 	if (m_Health < 0)
+	{
 		m_Health = 0;
+		for (int i = 0; i < m_Tile->m_Game->m_AllUnits.size(); i++)
+		{
+			if (m_Tile->m_Game->m_AllUnits[i] == this)
+			{
+				m_Tile->m_Game->DestroyUnit(i);
+				break;
+			}
+		}
+	}
 }
 
 void Unit::DrawHealth()

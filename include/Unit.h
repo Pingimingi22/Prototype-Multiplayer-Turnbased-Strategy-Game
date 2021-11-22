@@ -35,6 +35,8 @@ public:
 		m_HealthBarRect.h = 5;
 	}
 
+	~Unit();
+
 	//bool m_IsPlacing = false; // moved to Game.cpp
 
 	float m_Health = 100;

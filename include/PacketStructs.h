@@ -132,6 +132,9 @@ struct UnitDamagePacket
 };
 #pragma pack(pop)
 
+
+// Turns out we don't need this because we send the damage over the network which checks if the unit has been destroyed.
+// Which is great because less packets is more efficient and easier for me xD
 #pragma pack(push, 1)
 struct UnitDestroyedPacket
 {

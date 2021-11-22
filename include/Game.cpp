@@ -437,7 +437,7 @@ void Game::SetSecondaryTile(int x, int y, TileType type)
 	tile->SetSecondaryTile(type);
 }
 
-void Game::SendSpawnLocation(Building spawnedCastle)
+void Game::SendSpawnLocation(Building& spawnedCastle)
 {
 	CreatedCastlePacket createdCastle;
 	createdCastle.CanBuild = spawnedCastle.m_CanBuild;
@@ -610,4 +610,17 @@ void Game::AddResource(int amountOfWood, int amountOfFood, int amountOfStone)
 	m_LocalPlayer->m_stone += amountOfStone;
 
 	UpdateResourceText();
+}
+
+void Game::DestroyUnit(int index)
+{
+	m_AllUnits[index]->m_Tile->SetTile(m_AllUnits[index]->m_Tile->m_OriginalType); // Setting the tile the unit is on back to it's original state.
+
+	if (m_AllUnits[index]->m_HasSecondaryTile)
+	{
+		m_AllUnits[index]->m_Tile->RemoveSecondaryTile();
+	}
+
+	delete m_AllUnits[index];
+	m_AllUnits.erase(m_AllUnits.begin() + index);
 }

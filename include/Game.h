@@ -117,7 +117,7 @@ public:
 	bool CheckPlayerGeneration();
 
 	void GenerateSpawnLocations();
-	void SendSpawnLocation(Building spawnedCastle);
+	void SendSpawnLocation(Building& spawnedCastle);
 	void SendWorldGenerationComplete();
 	void EndTurn();
 
@@ -129,8 +129,6 @@ public:
 
 	void SetTile(int x, int y, TileType type, bool passable = false);
 	void SetSecondaryTile(int x, int y, TileType type);
-
-
 
 
 	/// <summary>
@@ -151,4 +149,7 @@ public:
 	/// <param name="amountOfFood">Food to add.</param>
 	/// <param name="amountOfStone">Stone to add.</param>
 	void AddResource(int amountOfWood, int amountOfFood, int amountOfStone);
+
+
+	void DestroyUnit(int index);
 };
