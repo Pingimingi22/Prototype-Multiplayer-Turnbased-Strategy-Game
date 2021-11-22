@@ -269,6 +269,8 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="include\Building.h" />
+    <ClInclude Include="include\BuildingCosts.h" />
+    <ClInclude Include="include\BuildingProductionStats.h" />
     <ClInclude Include="include\Button.h" />
     <ClInclude Include="include\Game.h" />
     <ClInclude Include="include\Grid.h" />
