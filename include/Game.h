@@ -23,6 +23,13 @@
 #include "NavMap.h"
 #include "Dijkstra.h"
 
+enum RESOURCE
+{
+	WOOD,
+	STONE,
+	FOOD
+
+};
 
 class Game
 {
@@ -69,6 +76,9 @@ public:
 	TTF_Font* m_MainFont;
 
 	Text m_TileSelectText;
+	Text m_WoodText;
+	Text m_FoodText;
+	Text m_StoneText;
 
 	std::vector<Unit*> m_AllUnits;
 
@@ -102,6 +112,8 @@ public:
 	bool LoadMedia();
 	SDL_Texture* LoadTexture(std::string path);
 
+	void UpdateResourceText();
+
 	bool CheckPlayerGeneration();
 
 	void GenerateSpawnLocations();
@@ -120,6 +132,16 @@ public:
 
 
 
+
+	/// <summary>
+	/// Allows us to remove resources when placing buildings. There are three of each parameter so that way we can remove
+	/// multiple types of resources when placing something like a farm or a quarry. For example, a quarry could cost
+	/// 50 wood and 50 stone.
+	/// </summary>
+	/// <param name="amountOfWood">Wood to deduct.</param>
+	/// <param name="amountOfFood">Food to deduct.</param>
+	/// <param name="amountOfStone">Stone to deduct.</param>
+	void RemoveResource(int amountOfWood, int amountOfFood, int amountOfStone);
 
 
 };

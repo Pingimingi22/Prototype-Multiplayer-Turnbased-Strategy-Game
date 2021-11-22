@@ -25,9 +25,9 @@ public:
 	int m_PlayerTurnNum;
 
 	std::string m_username;
-	int m_gold;
-	int m_wood;
-	int m_stone;
+	int m_food = 100;
+	int m_wood = 100;
+	int m_stone = 100;
 
 	// Used when deciding who plays first.
 	int m_rolledNumber;

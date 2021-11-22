@@ -17,7 +17,7 @@ public:
 	SDL_Renderer* m_Renderer;
 	
 
-	Text(std::string text, SDL_Color colour, TTF_Font* font, SDL_Renderer* renderer);
+	Text(std::string text, SDL_Color colour, TTF_Font* font, SDL_Renderer* renderer, float xPos, float yPos, float height);
 	Text() {}
 
 	void SetText(std::string text);

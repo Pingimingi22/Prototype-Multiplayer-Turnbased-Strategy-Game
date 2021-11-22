@@ -207,8 +207,20 @@ void Game::Init(int playerNum)
 		SDL_Color testColour;
 		testColour.r = 0;
 		testColour.g = 0;
-		testColour.b = 1;
-		m_TileSelectText = Text("-", testColour, m_MainFont, gRenderer);
+		testColour.b = 0;
+		m_TileSelectText = Text("-", testColour, m_MainFont, gRenderer, 50, 825, 45);
+
+		// --------------------------- Resources Text --------------------------- //
+		m_WoodText = Text(std::to_string(m_LocalPlayer->m_wood), testColour, m_MainFont, gRenderer, 790, 790, 40);
+		m_WoodText.SetText(std::to_string(m_LocalPlayer->m_wood));
+
+		m_FoodText = Text("-", testColour, m_MainFont, gRenderer, 490, 790, 40);
+		m_FoodText.SetText(std::to_string(m_LocalPlayer->m_food));
+
+		m_StoneText = Text("-", testColour, m_MainFont, gRenderer, 640, 790, 40);
+		m_StoneText.SetText(std::to_string(m_LocalPlayer->m_stone));
+
+		// ---------------------------------------------------------------------- //
 
 
 		// ======================== Creating Unit Button Templates. ======================== //
@@ -320,6 +332,10 @@ void Game::Update(SDL_Event& e)
 	m_SelectTexture->Draw(gRenderer);
 
 	m_TileSelectText.Draw(gRenderer);
+	m_WoodText.Draw(gRenderer);
+	m_FoodText.Draw(gRenderer);
+	m_StoneText.Draw(gRenderer);
+
 	m_FoodIconSprite->Draw(gRenderer);
 	m_StoneIconSprite->Draw(gRenderer);
 	m_WoodIconSprite->Draw(gRenderer);
@@ -538,4 +554,19 @@ void Game::SendUnitMove(Vector2 posToGoTo, Unit* unit)
 	packet.tileOriginalPos = { unit->m_Tile->m_Node->m_XIndex, unit->m_Tile->m_Node->m_YIndex };
 
 	m_LocalPlayer->peer->Send((char*)&packet, sizeof(UnitMovePacket), PacketPriority::HIGH_PRIORITY, PacketReliability::RELIABLE_ORDERED, 0, RakNet::UNASSIGNED_RAKNET_GUID, true);
+}
+
+void Game::RemoveResource(int amountOfWood, int amountOfFood, int amountOfStone)
+{
+	m_LocalPlayer->m_wood -= amountOfWood;
+	m_LocalPlayer->m_food -= amountOfFood;
+	m_LocalPlayer->m_stone -= amountOfStone;
+
+}
+
+void Game::UpdateResourceText()
+{
+	m_WoodText.SetText(std::to_string(m_LocalPlayer->m_wood));
+	m_StoneText.SetText(std::to_string(m_LocalPlayer->m_stone));
+	m_FoodText.SetText(std::to_string(m_LocalPlayer->m_food));
 }

@@ -31,9 +31,30 @@ void Unit::DrawButtons()
 	}
 }
 
+void Unit::RemoveResources(TileType typeOfBuilding)
+{
+	switch (typeOfBuilding)
+	{
+	case TileType::FARM:
+		m_Tile->m_Game->RemoveResource(25, 0, 25);
+		break;
+	case TileType::LUMBER:
+		m_Tile->m_Game->RemoveResource(25, 0, 0);
+	case TileType::QUARRY:
+		m_Tile->m_Game->RemoveResource(50, 0, 25);
+	}
+
+	m_Tile->m_Game->UpdateResourceText();
+
+}
+
 void Unit::Place(Tile* tileToPlaceOn)
 {
 	TileType newTileType = m_Tile->ProductionTypeToTileType(m_ProductionType);
+
+	// Deducting resources from player.
+	RemoveResources(newTileType);
+
 	Unit* newUnit = new Unit(tileToPlaceOn, m_Owner, false, false, newTileType, tileToPlaceOn->m_Node->m_XIndex, tileToPlaceOn->m_Node->m_YIndex, 0, false);
 
 	m_Tile->m_Game->m_AllUnits.push_back(newUnit);

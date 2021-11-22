@@ -1,7 +1,7 @@
 #include "Text.h"
 #include <iostream>
 
-Text::Text(std::string text, SDL_Color colour, TTF_Font* font, SDL_Renderer* renderer)
+Text::Text(std::string text, SDL_Color colour, TTF_Font* font, SDL_Renderer* renderer, float xPos, float yPos, float height)
 {
 	SDL_Surface* textSurface = TTF_RenderText_Solid(font, text.c_str(), colour);
 
@@ -29,9 +29,9 @@ Text::Text(std::string text, SDL_Color colour, TTF_Font* font, SDL_Renderer* ren
 			m_Height = textSurface->h;
 
 			m_Rect->w = 125;
-			m_Rect->h = 45;
-			m_Rect->x = 50;
-			m_Rect->y = 825;
+			m_Rect->h = height;//45;
+			m_Rect->x = xPos;//50;
+			m_Rect->y = yPos;//825;
 		}
 
 		SDL_FreeSurface(textSurface);

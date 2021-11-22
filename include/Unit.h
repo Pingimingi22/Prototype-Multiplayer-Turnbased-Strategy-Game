@@ -77,6 +77,7 @@ public:
 	void HandleInput(SDL_Event& e);
 
 	void Place(Tile* tileToPlaceOn);
+	void RemoveResources(TileType typeOfBuilding);
 
 	/// <summary>
 	/// Call to make unit start production of specified type.
@@ -144,5 +145,7 @@ public:
 	/// <param name="tileType">Type of the tile that you want to place the unit on.</param>
 	/// <returns>True is returned if it can place the production type on the passed in tile.</returns>
 	bool CheckCanPlace(TileType tileType);
+
+
 
 };
