@@ -335,6 +335,24 @@ int main(int argc, char* args[])
                 }
 
             }
+            else if (received == UNIT_DAMAGED)
+            {
+                std::cout << "Received a unit damaged packet." << std::endl;
+
+                UnitDamagePacket* damagePack = (UnitDamagePacket*)packet->data;
+
+                // We need to find what unit they moved, so we take the original tile position from the packet and find a matching unit.
+                for (int i = 0; i < game->m_AllUnits.size(); i++)
+                {
+                    if (game->m_AllUnits[i]->m_Tile->m_Node->m_XIndex == damagePack->tileOriginalPos.x && game->m_AllUnits[i]->m_Tile->m_Node->m_YIndex == damagePack->tileOriginalPos.y)
+                    {
+                        // This is the unit that has been moved.
+                        game->m_AllUnits[i]->TakeDamage(damagePack->damage);
+                        break;
+                    }
+                }
+                
+            }
             else
             {
                 std::cout << "Received unknown message." << std::endl;

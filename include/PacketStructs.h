@@ -17,7 +17,9 @@ enum
 	FINISHED_WORLD_GENERATION,
 	END_TURN,
 	PRODUCTION_COMPLETE,
-	UNIT_MOVE
+	UNIT_MOVE,
+	UNIT_DAMAGED,
+	UNIT_DESTROYED
 
 };
 
@@ -112,6 +114,30 @@ struct UnitMovePacket
 	int playerTurnID;
 	Vector2 movePos;
 	
+	// This position is used to find out which unit we are talking about.
+	Vector2 tileOriginalPos;
+};
+#pragma pack(pop)
+
+#pragma pack(push, 1)
+struct UnitDamagePacket
+{
+	unsigned char typeId = (unsigned char)UNIT_DAMAGED;
+	int playerTurnID;
+
+	// This position is used to find out which unit we are talking about.
+	Vector2 tileOriginalPos;
+
+	float damage;
+};
+#pragma pack(pop)
+
+#pragma pack(push, 1)
+struct UnitDestroyedPacket
+{
+	unsigned char typeId = (unsigned char)UNIT_DESTROYED;
+	int playerTurnID;
+
 	// This position is used to find out which unit we are talking about.
 	Vector2 tileOriginalPos;
 };

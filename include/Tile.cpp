@@ -4,6 +4,8 @@
 #include "Unit.h"
 #include "Grid.h"
 
+#include "PacketStructs.h"
+
 Tile::Tile() {}
 Tile::Tile(TileType type, float xPos, float yPos, float width, float height, SDL_Renderer* renderer, Game* game, Grid* worldGrid)
 {
@@ -245,6 +247,15 @@ void Tile::HandleInput(SDL_Event& e)
 									std::cout << "Attacked unit!" << std::endl;
 									isAttacking = true;
 									m_Unit->TakeDamage(25);
+
+									// Tell other clients that we have taken damage.
+									UnitDamagePacket damagePack;
+									damagePack.damage = 25;
+									damagePack.playerTurnID = m_Game->m_PlayerTurn;
+									damagePack.tileOriginalPos = { m_Node->m_XIndex, m_Node->m_YIndex };
+
+									m_Game->m_LocalPlayer->peer->Send((char*)&damagePack, sizeof(damagePack), PacketPriority::HIGH_PRIORITY, PacketReliability::RELIABLE_ORDERED, 0, RakNet::UNASSIGNED_RAKNET_GUID, true);
+
 								}
 							}
 						}
