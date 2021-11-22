@@ -164,7 +164,7 @@ void Tile::HandleInput(SDL_Event& e)
 
 					std::cout << "Hovered over tile and changed accordingly." << std::endl;	
 				}
-				if (e.type == SDL_MOUSEBUTTONDOWN && m_Game->m_CurrentlySelectedTile->m_Unit->CheckCanPlace(m_TempTypeCache) && !m_Unit && m_Game->m_CurrentlySelectedTile->m_Unit->IsNodeReachable(m_Node))
+				if (e.type == SDL_MOUSEBUTTONDOWN && m_Game->m_CurrentlySelectedTile->m_Unit->CheckCanPlace(m_TempTypeCache) && !m_Unit && m_Game->m_CurrentlySelectedTile->m_Unit->IsNodeReachable(m_Node) && e.button.button == SDL_BUTTON_LEFT)
 				{
 					m_Game->m_CurrentlySelectedTile->m_Unit->Place(this);
 					m_Game->m_CurrentlySelectedTile->m_Unit->Unhighlight();
@@ -172,8 +172,22 @@ void Tile::HandleInput(SDL_Event& e)
 
 					m_HasTempChange = false;
 					m_IsHovering = false;
+				}
+				else if (e.type == SDL_MOUSEBUTTONDOWN)
+				{
+					if (e.button.button == SDL_BUTTON_RIGHT)
+					{
+						std::cout << "Attempting to deselect placement of building." << std::endl;
+						
+						m_Game->m_IsPlacing = false;
+						m_Game->m_CurrentlySelectedTile->m_Unit->Unhighlight();
+						m_Game->m_CurrentlySelectedTile = nullptr;
 
-					
+						m_IsHovering = false;
+						//m_HasTempChange = false;
+
+						
+					}
 				}
 			}
 		}
@@ -193,7 +207,7 @@ void Tile::HandleInput(SDL_Event& e)
 
 	// ------------------------------------------------------------------------------------------ //
 
-	if (e.type == SDL_MOUSEBUTTONDOWN && !m_Game->m_IsPlacing)
+	if (e.type == SDL_MOUSEBUTTONDOWN && !m_Game->m_IsPlacing && e.button.button == SDL_BUTTON_LEFT)
 	{
 		//int x, y;
 		if (SDL_GetMouseState(&x, &y))
