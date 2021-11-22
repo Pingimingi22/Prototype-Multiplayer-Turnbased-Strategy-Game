@@ -366,6 +366,8 @@ void Unit::MoveTo(int pathIndex)
 	m_CurrentPath[pathIndex]->AttachUnit(this);
 
 	m_Tile = m_CurrentPath[pathIndex];
+
+	UpdateHealthBarPos();
 }
 
 bool Unit::IsNodeReachable(Node* node)
@@ -499,4 +501,51 @@ void Unit::GenerateResources()
 		std::cout << "Passed in a m_TileType that has no generation stats! Please pass in either a FARM, LUMBER or QUARRY!" << std::endl;
 		break;
 	}
+}
+
+void Unit::TakeDamage(float damage)
+{
+	m_Health -= damage;
+	if (m_Health < 0)
+		m_Health = 0;
+}
+
+void Unit::DrawHealth()
+{
+	SDL_SetRenderDrawColor(m_Tile->m_Renderer, 255, 0, 0, 255);
+
+	m_HealthBarRect.w = (m_Health / 100) * (1280 / 32); // 64 is the width of the entire tile.
+	SDL_RenderFillRect(m_Tile->m_Renderer, &m_HealthBarRect);
+}
+
+void Unit::UpdateHealthBarPos()
+{
+	m_HealthBarRect.x = m_Tile->m_xPos;
+	m_HealthBarRect.y = m_Tile->m_yPos + 20;
+}
+
+bool Unit::CanAttack(Tile* tile)
+{
+	for (int i = 0; i < m_AttackableTiles.size(); i++)
+	{
+		if (tile == m_AttackableTiles[i])
+		{
+			return true;
+		}
+	}
+	return false;
+}
+
+void Unit::CalculateAttackTiles(float gScoreReach)
+{
+	// Clearing old attackable tiles.
+	m_AttackableTiles.clear();
+
+	std::vector<Node*> nodesUnderGScore = Dijkstra::GetNodesUnderGScore(gScoreReach, m_Tile->m_Node, true); // By ignoring passability we can attack units.
+
+	for (int i = 0; i < nodesUnderGScore.size(); i++)
+	{
+		m_AttackableTiles.push_back(m_Tile->m_Game->GetTile(nodesUnderGScore[i]->m_XIndex, nodesUnderGScore[i]->m_YIndex));
+	}
+
 }

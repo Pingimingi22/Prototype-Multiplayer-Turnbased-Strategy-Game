@@ -29,9 +29,16 @@ public:
 		m_Reach = reach;
 
 		m_HasSecondaryTile = secondaryTile;
+
+		m_HealthBarRect.x = m_Tile->m_xPos;
+		m_HealthBarRect.y = m_Tile->m_yPos + 20;
+		m_HealthBarRect.h = 5;
 	}
 
 	//bool m_IsPlacing = false; // moved to Game.cpp
+
+	float m_Health = 100;
+	SDL_Rect m_HealthBarRect;
 
 	bool m_HasSecondaryTile = false;
 	bool m_CanBuild;
@@ -60,6 +67,9 @@ public:
 
 	// Container for all tiles that player can move to. Including the tiles that are inpassable and will show as red. This is only for mobile units..
 	std::vector<Tile*> m_WalkableTiles;
+
+	// Container for tiles that the unit can currently attack.
+	std::vector<Tile*> m_AttackableTiles;
 
 	bool m_IsMoving = false;
 	int m_CurrentPathIndex = 0;
@@ -126,6 +136,7 @@ public:
 	void DrawButtons();
 
 	void CalculateWalkableTiles(bool ignorePassability = false);
+	
 
 	void HighlightWalkable();
 	void Unhighlight();
@@ -155,6 +166,13 @@ public:
 
 	void GenerateResources();
 	
+	void TakeDamage(float damage);
+	void DrawHealth();
+
+	void UpdateHealthBarPos();
+
+	void CalculateAttackTiles(float gScoreReach);
+	bool CanAttack(Tile* tile);
 
 
 };

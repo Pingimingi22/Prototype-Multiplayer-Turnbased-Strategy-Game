@@ -103,12 +103,20 @@ void Tile::Draw(SDL_Renderer* renderer)
 		Highlight();
 
 	
+	if (m_Unit && m_Unit->m_Health < 100)
+	{
+		m_Unit->DrawHealth(); // Draw health to any units that don't have max health currently.
+	}
 
 	if (m_Game->m_CurrentlySelectedTile == this)
 	{
 		// If we are the currently selected tile, find out if we have any buttons attached to our unit and if we do, draw them to the screen.
 		if (m_Unit != nullptr)
 		{
+
+			// Drawing the health bars of the units.
+			m_Unit->DrawHealth();
+
 			// If we have a unit, we can draw all of our buttons.
 			for (int i = 0; i < m_Unit->m_Buttons.size(); i++)
 			{
@@ -226,59 +234,87 @@ void Tile::HandleInput(SDL_Event& e)
 						m_Game->m_CurrentlySelectedTile->m_Unit->Unhighlight();
 
 
-					// To track whether or not we moved a unit with this selection.
-					bool movedUnit = false;
-					bool hasSelectedSameUnit = false;
-					// If we already had a selected tile.
-					if (m_Game->m_CurrentlySelectedTile)
+					bool isAttacking = false;
+					// Before we attempt to move the unit, we have to check if the user has attacked with a villager.
+					if (m_Game->m_CurrentlySelectedTile && m_Game->m_CurrentlySelectedTile->m_Unit && m_Game->m_CurrentlySelectedTile->m_Unit->m_TileType == TileType::VILLAGER)
 					{
-						// If the previously selected tile was a unit, we want to treat this selection as a move order.
-						Unit* tileUnit = m_Game->m_CurrentlySelectedTile->m_Unit;
-						if (tileUnit)
+						if (m_Unit)
 						{
-							if (!tileUnit->m_HasMovedThisTurn && m_Game->m_PlayerTurn == m_Game->m_LocalPlayer->m_PlayerTurnNum && m_Game->m_CurrentlySelectedTile->m_Unit->m_OwnerTurnID == m_Game->m_LocalPlayer->m_PlayerTurnNum) // Can only move unit once
-							{																																																		 // and if it is our turn.
+							// If we get here, it means the user has clicked on something while having a villager selected.
+							// This means if they now click on an enemy unit that is < 1.5f GScore away, they will attack that unit.
 
-								if (tileUnit == m_Unit)
+							if (m_Game->m_LocalPlayer->m_PlayerTurnNum == m_Game->m_CurrentlySelectedTile->m_Unit->m_OwnerTurnID && m_Game->m_PlayerTurn == m_Game->m_LocalPlayer->m_PlayerTurnNum) // Making sure it's our turn and our unit we are attacking with.
+							{
+
+								m_Game->m_CurrentlySelectedTile->m_Unit->CalculateAttackTiles(1.5f);
+
+
+								if (m_Game->m_CurrentlySelectedTile->m_Unit->CanAttack(this) && m_Unit->m_OwnerTurnID != m_Game->m_PlayerTurn) // Prevents attacking our own units.
+								{
+									// This means they have clicked on an enemy unit with a villager.
+									std::cout << "Attacked unit!" << std::endl;
+									isAttacking = true;
+									m_Unit->TakeDamage(25);
+								}
+							}
+						}
+					}
+					if(!isAttacking)
+					{
+						// To track whether or not we moved a unit with this selection.
+						bool movedUnit = false;
+						bool hasSelectedSameUnit = false;
+						// If we already had a selected tile.
+						if (m_Game->m_CurrentlySelectedTile)
+						{
+							// If the previously selected tile was a unit, we want to treat this selection as a move order.
+							Unit* tileUnit = m_Game->m_CurrentlySelectedTile->m_Unit;
+							if (tileUnit)
+							{
+								if (!tileUnit->m_HasMovedThisTurn && m_Game->m_PlayerTurn == m_Game->m_LocalPlayer->m_PlayerTurnNum && m_Game->m_CurrentlySelectedTile->m_Unit->m_OwnerTurnID == m_Game->m_LocalPlayer->m_PlayerTurnNum) // Can only move unit once
+								{																																																		 // and if it is our turn.
+
+									if (tileUnit == m_Unit)
+									{
+										// We clicked on the same unit that we are, so we should deselect ourselves.
+										m_Game->m_CurrentlySelectedTile = nullptr;
+										hasSelectedSameUnit = true;
+									}
+
+									// Only attempt to move the unit if the passed in node is reachable.
+									else if (m_Game->m_CurrentlySelectedTile->m_Unit->IsNodeReachable(m_Node))
+									{
+										tileUnit->Move(Dijkstra::GetShortestPath(tileUnit->m_Tile->m_Node, m_Node));
+
+										// Send move packet to all other players.
+										m_Game->SendUnitMove({ (int)m_Node->m_XIndex , (int)m_Node->m_YIndex }, tileUnit);
+
+										// Deselecting tiles after moving a unit so you don't get stuck in moving the same unit forever.
+										m_Game->m_CurrentlySelectedTile = nullptr;
+
+										movedUnit = true;
+										hasSelectedSameUnit = false;
+									}
+								}
+
+								// This extra else if is required because it allows us to deselect units after they have moved or if it is not our turn.
+								else if (tileUnit == m_Unit)
 								{
 									// We clicked on the same unit that we are, so we should deselect ourselves.
 									m_Game->m_CurrentlySelectedTile = nullptr;
 									hasSelectedSameUnit = true;
+
 								}
 
-								// Only attempt to move the unit if the passed in node is reachable.
-								else if (m_Game->m_CurrentlySelectedTile->m_Unit->IsNodeReachable(m_Node))
-								{
-									tileUnit->Move(Dijkstra::GetShortestPath(tileUnit->m_Tile->m_Node, m_Node));
-
-									// Send move packet to all other players.
-									m_Game->SendUnitMove({ (int)m_Node->m_XIndex , (int)m_Node->m_YIndex }, tileUnit);
-
-									// Deselecting tiles after moving a unit so you don't get stuck in moving the same unit forever.
-									m_Game->m_CurrentlySelectedTile = nullptr;
-
-									movedUnit = true;
-									hasSelectedSameUnit = false;
-								}
 							}
-
-							// This extra else if is required because it allows us to deselect units after they have moved or if it is not our turn.
-							else if (tileUnit == m_Unit)
-							{
-								// We clicked on the same unit that we are, so we should deselect ourselves.
-								m_Game->m_CurrentlySelectedTile = nullptr;
-								hasSelectedSameUnit = true;
-
-							}
-							
 						}
-					}
-					if (!movedUnit && !hasSelectedSameUnit)
-					{
-						m_Game->m_CurrentlySelectedTile = this;
-						if (m_Unit)
+						if (!movedUnit && !hasSelectedSameUnit)
 						{
-							m_Unit->Select();
+							m_Game->m_CurrentlySelectedTile = this;
+							if (m_Unit)
+							{
+								m_Unit->Select();
+							}
 						}
 					}
 				}
