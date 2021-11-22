@@ -143,5 +143,12 @@ public:
 	/// <param name="amountOfStone">Stone to deduct.</param>
 	void RemoveResource(int amountOfWood, int amountOfFood, int amountOfStone);
 
-
+	/// <summary>
+	/// After the end of each turn, this should be called for the local player so that
+	/// they earn the resources for all of the active structures they have.
+	/// </summary>
+	/// <param name="amountOfWood">Wood to add.</param>
+	/// <param name="amountOfFood">Food to add.</param>
+	/// <param name="amountOfStone">Stone to add.</param>
+	void AddResource(int amountOfWood, int amountOfFood, int amountOfStone);
 };

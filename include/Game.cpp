@@ -503,10 +503,42 @@ void Game::EndTurn()
 			m_AllUnits[i]->UpdateProduction();
 
 
+		// For all the buildings that the player has built, we have to make them generate their resources.
+		// We only do this for units that this player owns since we don't want other players gaining resources from
+		// other player's buildings.
+		if (m_AllUnits[i]->m_OwnerTurnID == m_LocalPlayer->m_PlayerTurnNum) // Making sure the unit is ours.
+		{
+			TileType unitType = m_AllUnits[i]->m_TileType;
+			if (unitType == TileType::LUMBER || unitType == TileType::QUARRY || unitType == TileType::FARM) // Only want to generate resources for these types of units.
+			{
+				m_AllUnits[i]->GenerateResources();
+			}
+		}
+
 		// Allowing units to move again for the next turn.
 		m_AllUnits[i]->m_HasMovedThisTurn = false;
 	}
+	
+	// We have another seperate loop that goes through all units again because after generating all the resources from every building
+	// unit, we need to tell all villager units to re-check their building buttons because if they were de-activated before, they might
+	// have enough resources to re-activate them now.
+	for (int i = 0; i < m_AllUnits.size(); i++)
+	{
+		TileType unitType = m_AllUnits[i]->m_TileType;
+		if (unitType == TileType::VILLAGER)
+		{
+			// We want to re-check all the building buttons for our villagers since we have just earned some resources.
+			// This means buttons that are de-activated might not have to be anymore.
+			for (int j = 0; j < m_AllUnits[i]->m_Buttons.size(); j++)
+			{
+				if (m_AllUnits[i]->CanAfford(m_AllUnits[i]->m_Tile->ProductionTypeToTileType(m_AllUnits[i]->m_Buttons[j]->m_prodType)))
+				{
+					m_AllUnits[i]->m_Buttons[j]->m_Active = true;
+				}
+			}
 
+		}
+	}
 
 
 	// We end our turn, increment the turn number. Then we send an end turn packet to everybody.
@@ -569,4 +601,13 @@ void Game::UpdateResourceText()
 	m_WoodText.SetText(std::to_string(m_LocalPlayer->m_wood));
 	m_StoneText.SetText(std::to_string(m_LocalPlayer->m_stone));
 	m_FoodText.SetText(std::to_string(m_LocalPlayer->m_food));
+}
+
+void Game::AddResource(int amountOfWood, int amountOfFood, int amountOfStone)
+{
+	m_LocalPlayer->m_wood += amountOfWood;
+	m_LocalPlayer->m_food += amountOfFood;
+	m_LocalPlayer->m_stone += amountOfStone;
+
+	UpdateResourceText();
 }

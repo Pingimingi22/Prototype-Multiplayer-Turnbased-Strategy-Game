@@ -146,6 +146,15 @@ public:
 	/// <returns>True is returned if it can place the production type on the passed in tile.</returns>
 	bool CheckCanPlace(TileType tileType);
 
+	/// <summary>
+	/// Checks if we can afford the passed in tile type as a building to place.
+	/// </summary>
+	/// <param name="buildingType">Tile type of the building. Should be either QUARRY, LUMBER or FARM.</param>
+	/// <returns>True if we can afford the specified building.</returns>
+	bool CanAfford(TileType buildingType);
+
+	void GenerateResources();
+	
 
 
 };

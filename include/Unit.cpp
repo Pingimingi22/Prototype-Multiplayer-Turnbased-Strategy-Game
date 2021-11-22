@@ -7,6 +7,9 @@
 
 #include "PacketStructs.h"
 
+#include "BuildingCosts.h"
+#include "BuildingProductionStats.h"
+
 // =============== Defines of some general gameplay stuff =============== //
 #define VILLAGER_PRODUCTION_TURNS 2 // Takes 2 turns to produce one villager.
 #define LUMBER_PRODUCTION_TURNS 0
@@ -18,8 +21,8 @@
 void Unit::AddButton(Button* button)
 {
 	//Button* newButton = new Button(button.m_ActiveSprite, button.m_InactiveSprite, true, button.m_Game, button.m_Type, this); // Important last parameter.
-																															  // this keyword means this unit
-																															  // will be attached to the button.
+																															    // this keyword means this unit
+																															    // will be attached to the button.
 	m_Buttons.push_back(button);
 }
 
@@ -36,15 +39,28 @@ void Unit::RemoveResources(TileType typeOfBuilding)
 	switch (typeOfBuilding)
 	{
 	case TileType::FARM:
-		m_Tile->m_Game->RemoveResource(25, 0, 25);
+		m_Tile->m_Game->RemoveResource(FARM_WOOD_COST, FARM_FOOD_COST, FARM_STONE_COST);
 		break;
 	case TileType::LUMBER:
-		m_Tile->m_Game->RemoveResource(25, 0, 0);
+		m_Tile->m_Game->RemoveResource(LUMBER_WOOD_COST, LUMBER_FOOD_COST, LUMBER_STONE_COST);
+		break;
 	case TileType::QUARRY:
-		m_Tile->m_Game->RemoveResource(50, 0, 25);
+		m_Tile->m_Game->RemoveResource(QUARRY_WOOD_COST, QUARRY_FOOD_COST, QUARRY_STONE_COST);
+		break;
 	}
 
 	m_Tile->m_Game->UpdateResourceText();
+
+	// Now that we've deducted resources, we have to check if we need to disable any building buttons since the
+	// player might not have enough to afford them.
+	for (int i = 0; i < m_Buttons.size(); i++)
+	{
+		if (!CanAfford(m_Tile->ProductionTypeToTileType(m_Buttons[i]->m_prodType)))
+		{
+			m_Buttons[i]->m_Active = false;
+		}
+	}
+
 
 }
 
@@ -416,4 +432,71 @@ bool Unit::CheckCanPlace(TileType tileType)
 	}
 	// If it doesn't hit any of those then it will return false.
 	return false;
+}
+
+
+bool Unit::CanAfford(TileType buildingType)
+{
+	int currentWood = m_Tile->m_Game->m_LocalPlayer->m_wood;
+	int currentFood = m_Tile->m_Game->m_LocalPlayer->m_food;
+	int currentStone = m_Tile->m_Game->m_LocalPlayer->m_stone;
+
+	bool success = true;
+	switch (buildingType)
+	{
+	case TileType::FARM:
+
+		if (currentWood - FARM_WOOD_COST < 0)
+			success = false;
+		if (currentFood - FARM_FOOD_COST < 0)
+			success = false;
+		if (currentStone - FARM_STONE_COST < 0)
+			success = false;
+		break;
+
+	case TileType::LUMBER:
+
+		if (currentWood - LUMBER_WOOD_COST < 0)
+			success = false;
+		if (currentFood - LUMBER_FOOD_COST < 0)
+			success = false;
+		if (currentStone - LUMBER_STONE_COST < 0)
+			success = false;
+		break;
+
+	case TileType::QUARRY:
+
+		if (currentWood - QUARRY_WOOD_COST < 0)
+			success = false;
+		if (currentFood - QUARRY_FOOD_COST < 0)
+			success = false;
+		if (currentStone - QUARRY_STONE_COST < 0)
+			success = false;
+		break;
+	}
+
+	return success;
+	
+}
+
+void Unit::GenerateResources()
+{
+	// We'll only bother generating resources if the unit is either a LUMBER, QUARRY or FARM. All
+	// other units don't generate anything.
+
+	switch (m_TileType)
+	{
+	case TileType::FARM:
+		m_Tile->m_Game->AddResource(FARM_WOOD_GENERATION, FARM_FOOD_GENERATION, FARM_STONE_GENERATION);
+		break;
+	case TileType::LUMBER:
+		m_Tile->m_Game->AddResource(LUMBER_WOOD_GENERATION, LUMBER_FOOD_GENERATION, LUMBER_STONE_GENERATION);
+		break;
+	case TileType::QUARRY:
+		m_Tile->m_Game->AddResource(QUARRY_WOOD_GENERATION, QUARRY_FOOD_GENERATION, QUARRY_STONE_GENERATION);
+		break;
+	default:
+		std::cout << "Passed in a m_TileType that has no generation stats! Please pass in either a FARM, LUMBER or QUARRY!" << std::endl;
+		break;
+	}
 }

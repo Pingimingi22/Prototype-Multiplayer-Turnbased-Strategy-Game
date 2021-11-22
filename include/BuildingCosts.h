@@ -1,0 +1,13 @@
+#pragma once
+
+#define QUARRY_WOOD_COST 50
+#define QUARRY_FOOD_COST 0
+#define QUARRY_STONE_COST 25
+
+#define FARM_WOOD_COST 25
+#define FARM_FOOD_COST 0
+#define FARM_STONE_COST 0
+
+#define LUMBER_WOOD_COST 50
+#define LUMBER_FOOD_COST 0
+#define LUMBER_STONE_COST 0
