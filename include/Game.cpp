@@ -517,6 +517,8 @@ void Game::EndTurn()
 
 		// Allowing units to move again for the next turn.
 		m_AllUnits[i]->m_HasMovedThisTurn = false;
+		// Allowing them to attack again aswell.
+		m_AllUnits[i]->m_HasAttackedThisTurn = false;
 	}
 	
 	// We have another seperate loop that goes through all units again because after generating all the resources from every building

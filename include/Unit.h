@@ -49,6 +49,7 @@ public:
 	float m_Reach = 0;
 
 	bool m_HasMovedThisTurn = false;
+	bool m_HasAttackedThisTurn = false;
 
 	// have to rehook these up after sending through the network.
 	// Not to be used over network!

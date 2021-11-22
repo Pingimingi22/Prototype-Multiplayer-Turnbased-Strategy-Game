@@ -241,8 +241,10 @@ void Tile::HandleInput(SDL_Event& e)
 								m_Game->m_CurrentlySelectedTile->m_Unit->CalculateAttackTiles(1.5f);
 
 
-								if (m_Game->m_CurrentlySelectedTile->m_Unit->CanAttack(this) && m_Unit->m_OwnerTurnID != m_Game->m_PlayerTurn) // Prevents attacking our own units.
+								if (m_Game->m_CurrentlySelectedTile->m_Unit->CanAttack(this) && m_Unit->m_OwnerTurnID != m_Game->m_PlayerTurn && !m_Game->m_CurrentlySelectedTile->m_Unit->m_HasAttackedThisTurn) // Prevents attacking our own units.
 								{
+									m_Game->m_CurrentlySelectedTile->m_Unit->m_HasAttackedThisTurn = true;
+
 									// This means they have clicked on an enemy unit with a villager.
 									std::cout << "Attacked unit!" << std::endl;
 									isAttacking = true;
