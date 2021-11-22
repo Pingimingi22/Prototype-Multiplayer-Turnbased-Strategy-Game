@@ -45,7 +45,7 @@ Player* GetPlayerByTurnID(int id)
 
 void OtherInputThread()
 {
-    while (true)
+    while (!gameStarted)
     {
         std::string input;
         std::getline(std::cin, input);
@@ -109,8 +109,11 @@ int main(int argc, char* args[])
 
     std::cout << "Type start, when you're ready to start the game." << std::endl;
     std::cout << "Waiting for players..." << std::endl;
+
     // FIXME make it so only the server can start the game.
-    std::thread otherInput(OtherInputThread);
+    std::thread otherInput;
+    if(localPlayer->m_IsServer)
+        otherInput = std::thread(OtherInputThread); // Only the server needs this extra thread since they have to be able to type "Start."
 
     SDL_Event e;
     while (true)
@@ -353,7 +356,10 @@ int main(int argc, char* args[])
 
         if (game != nullptr && game->hasQuit)
         {
-            otherInput.join();
+            if (otherInput.joinable())
+            {
+                otherInput.join();
+            }
             return 0; // Exit out of game loop.
         }
     }
